@@ -17,7 +17,7 @@ export default function Login(){
 
                             <form style={{width:"35em"}} id={"loginForm"}>
 
-                                <h3 className="fw-normal mb-3 pb-3">LOGIN</h3>
+                                <h3 className="fw-normal mb-3 pb-3">Inicio de sesión</h3>
 
                                 <div className="form-outline mb-4">
                                     <TextField type="email"
