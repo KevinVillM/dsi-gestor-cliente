@@ -11,8 +11,11 @@ function App() {
     <div>
       {
         isAuthenticated ?(
+          
          
           <Navbar name={user.name} />
+        
+          
          
         ) :(
           <div className="text-center">

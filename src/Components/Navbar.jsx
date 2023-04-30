@@ -4,6 +4,7 @@ import Bienvenida from './Bienvenida'
 import TableroT from './TableroT'
 import Logout from "./Logout";
 export default function Navbar(props){
+    console.log(props);
     
     return(
         <BrowserRouter>
@@ -43,4 +44,5 @@ export default function Navbar(props){
       </Routes>
       </BrowserRouter>
     )
+    
 }
