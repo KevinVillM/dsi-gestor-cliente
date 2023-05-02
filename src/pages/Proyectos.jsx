@@ -31,12 +31,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 function Proyectos() {
 
-    function createData(nombreproyecto, descripción, fechaInicio, fechaFinal, eliminar) {
-        return { nombreproyecto, descripción, fechaInicio, fechaFinal,eliminar };
+    function createData(nombreproyecto, descripción, fechaInicio,colaboradores, fechaFinal, eliminar) {
+        return { nombreproyecto, descripción, fechaInicio, colaboradores,  fechaFinal,eliminar };
     }
 
     const rows = [//metodo para agregar contenido a las tablas 
-        createData('Prueba', 'hola', 'inicio', 'final'),
+        createData('Prueba', 'hola', 'inicio','Colaboradores', 'final'),
 
     ];
     const handleEliminarMyProyect = () => {
@@ -130,6 +130,7 @@ function Proyectos() {
                                         <TableCell>Nombre del Proyecto</TableCell>
                                         <TableCell align="right">Descripción</TableCell>
                                         <TableCell align="right">Fecha de Inicio</TableCell>
+                                        <TableCell align="right">Colaboradores</TableCell>
                                         <TableCell align="right">Fecha Final</TableCell>
                                         <TableCell align="right"></TableCell>
                                         
@@ -143,6 +144,7 @@ function Proyectos() {
                                             </TableCell>
                                             <TableCell align="right">{row.descripción}</TableCell>
                                             <TableCell align="right">{row.fechaInicio}</TableCell>
+                                            <TableCell align="right">{row.colaboradores}</TableCell>
                                             <TableCell align="right">{row.fechaFinal}</TableCell>
                                             <TableCell align="right"> <IconButton
                                             id='deleteMyProyect'
@@ -172,6 +174,7 @@ function Proyectos() {
                                         <TableCell>Nombre del Proyecto</TableCell>
                                         <TableCell align="right">Descripción</TableCell>
                                         <TableCell align="right">Fecha de Inicio</TableCell>
+                                        <TableCell align="right">Colaboradores</TableCell>
                                         <TableCell align="right">Fecha Final</TableCell>
                                         <TableCell align="right"></TableCell>
                                         
@@ -185,6 +188,7 @@ function Proyectos() {
                                             </TableCell>
                                             <TableCell align="right">{row.descripción}</TableCell>
                                             <TableCell align="right">{row.fechaInicio}</TableCell>
+                                            <TableCell align="right">{row.colaboradores}</TableCell>
                                             <TableCell align="right">{row.fechaFinal}</TableCell>
                                             <TableCell align="right">
                                                  <IconButton
