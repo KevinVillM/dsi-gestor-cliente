@@ -2,6 +2,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Login from "./pages/Autenticación/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Proyectos from "./pages/Proyectos/Proyectos.jsx";
+import GestionTareas from "./pages/Tareas/GestionTareas.jsx";
 export const App = () => {
     return (
       <BrowserRouter>
@@ -9,6 +10,7 @@ export const App = () => {
             <Route path ={"/login"} element={<Login/>}/>
             <Route path={"/dashboard"} element={<Dashboard />}/>
             <Route path = { "/proyectos"} element={<Proyectos/>}/>
+            <Route path={"/tareas"} element={<GestionTareas/>}/>
         </Routes>
       </BrowserRouter>
     );
