@@ -1,10 +1,27 @@
-
-
-import React from 'react'
+import react from 'react'
+import {useState} from 'react'
 import {TextField} from "@mui/material";
 
 
+
+ async function autenticar(email,password){
+
+    let body = {email:email,password:password}
+
+
+    return await fetch("http://localhost:8080/api/auth/login",{
+        method:"POST",
+        body:JSON.stringify(body),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+
+}
 export default function Login(){
+
+    let [email,setEmail] = useState("")
+    let [password,setPassword] = useState("")
 
     return <>
         <section className="vh-100">
@@ -21,12 +38,14 @@ export default function Login(){
 
                                 <div className="form-outline mb-4">
                                     <TextField type="email"
+                                               onChange={e=>{setEmail(e.target.value)}}
                                                label={"Correo electronico"}
-                                               className="form-control form-control-lg" />
+                                               className="form-control form-control-lg"/>
                                 </div>
 
                                 <div className="form-outline mb-4">
                                     <TextField type="password"
+                                               onChange={e=> {setPassword(e.target.value)}}
                                                className="form-control form-control-lg"
                                                label={"Contraseña"}/>
 
@@ -35,6 +54,22 @@ export default function Login(){
                                 <div className="pt-1 mb-4">
                                     <button
                                         className={"btn"}
+                                        onClick={(e)=>{
+                                            e.preventDefault()
+                                            autenticar(email,password)
+                                                .then(response => response.ok ? response.json():0)
+                                                .then(res =>{
+                                                    if (res){
+                                                        localStorage.setItem("uid",res.usuario.uid)
+                                                        localStorage.setItem("usuario",res.usuario)
+                                                        sessionStorage.setItem("token",res.token)
+                                                        localStorage.setItem("isLogged",true)
+                                                        console.log(res)
+                                                        window.location = window.location.href.replace("login", "dashboard")
+
+                                                    }
+                                                })
+                                        }}
                                         style={{
                                             backgroundColor:"#214A87",
                                             color:"#FFF"

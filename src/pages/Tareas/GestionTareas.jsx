@@ -33,7 +33,7 @@ function GestionTareas(){
 
     return(
         <>
-            <ResponsiveAppBar/>
+
             <h1 className={"text-center"}>Gestionar Tareas</h1>
             <React.Fragment>
                 <CssBaseline/>

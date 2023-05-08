@@ -1,15 +1,13 @@
 import React from 'react'
 import {Card, CardActionArea, CardContent, Grid, Icon} from "@mui/material";
 import Typography from "@mui/material/Typography";
-function click(){
-    alert("Click")
-}
+
 
 function OpcionCard(props){
 
     return (<>
         <Card variant={"outlined"} >
-            <CardActionArea onClick={click} >
+            <CardActionArea onClick={props.handler} >
                 <CardContent>
                     <Grid container spacing={1}>
                         <Grid item xs={12} textAlign={"center"} >

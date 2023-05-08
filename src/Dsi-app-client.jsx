@@ -1,16 +1,22 @@
+import react from "react"
 import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Login from "./pages/Autenticación/Login.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
+import Inicio from "./pages/Inicio.jsx";
 import Proyectos from "./pages/Proyectos/Proyectos.jsx";
 import GestionTareas from "./pages/Tareas/GestionTareas.jsx";
+import RequireAuth from "./pages/Autenticación/RequireAuth.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 export const App = () => {
     return (
       <BrowserRouter>
         <Routes>
-            <Route path ={"/login"} element={<Login/>}/>
-            <Route path={"/dashboard"} element={<Dashboard />}/>
-            <Route path = { "/proyectos"} element={<Proyectos/>}/>
-            <Route path={"/tareas"} element={<GestionTareas/>}/>
+            <Route path ={"/login"} element={<Login/>}></Route>
+            <Route element={<RequireAuth isLogged={localStorage.getItem("isLogged") === "true"}/> } >
+                <Route path={"/dashboard"} element={<Dashboard><Inicio/></Dashboard>}></Route>
+                <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>
+                <Route path={"/tareas"} element={<Dashboard><GestionTareas/></Dashboard>}></Route>
+            </Route>
+
         </Routes>
       </BrowserRouter>
     );

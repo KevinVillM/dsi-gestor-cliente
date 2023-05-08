@@ -56,7 +56,7 @@ function Proyectos() {
 
     return (
         <>
-            <ResponsiveAppBar />
+
             <h1 className='Cproyecto'>Proyectos </h1>
             <React.Fragment>
                 <CssBaseline />
