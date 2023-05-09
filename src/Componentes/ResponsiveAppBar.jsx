@@ -12,7 +12,6 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import {Outlet} from "react-router";
 
 const pages = ['Proyectos', 'Mis tareas'];
 const settings = ['Perfil', 'Cerrar sesión'];
@@ -21,6 +20,10 @@ function ResponsiveAppBar(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+     function cerrarSesion(){
+         localStorage.clear()
+         window.location.href = "/login"
+     }
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -28,7 +31,7 @@ function ResponsiveAppBar(props) {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
+    const handleCloseNavMenu = (index) => {
         setAnchorElNav(null);
     };
 
@@ -149,8 +152,15 @@ function ResponsiveAppBar(props) {
                                 onClose={handleCloseUserMenu}
                             >
                                 {settings.map((setting) => (
-                                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">{setting}</Typography>
+                                    <MenuItem key={setting} onClick={()=>{
+                                        handleCloseUserMenu()
+
+                                        switch (setting) {
+                                            case "Cerrar sesión": cerrarSesion();
+                                            break;
+                                        }
+                                    }}>
+                                        <Typography textAlign={"center"}>{setting}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>

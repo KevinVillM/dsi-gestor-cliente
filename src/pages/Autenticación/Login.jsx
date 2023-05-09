@@ -4,22 +4,29 @@ import {TextField} from "@mui/material";
 
 
 
- async function autenticar(email,password){
+  function autenticar(email,password){
 
     let body = {email:email,password:password}
+    let r ;
+    try {
+        r =   fetch("http://localhost:8080/api/auth/login",{
+            method:"POST",
+            body:JSON.stringify(body),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
 
+    }catch (error){
+        console.log(error.message)
+    }
 
-    return await fetch("http://localhost:8080/api/auth/login",{
-        method:"POST",
-        body:JSON.stringify(body),
-        headers:{
-            "Content-Type":"application/json"
-        }
-    })
+      return r;
 
 }
 export default function Login(){
-
+    let [errorEmail,setErrorEmail] = useState(false)
+    let [errorPassword,setErrorPassword] = useState(false)
     let [email,setEmail] = useState("")
     let [password,setPassword] = useState("")
 
@@ -38,14 +45,43 @@ export default function Login(){
 
                                 <div className="form-outline mb-4">
                                     <TextField type="email"
-                                               onChange={e=>{setEmail(e.target.value)}}
+                                               required
+                                               pattern={"email"}
+                                               error={errorEmail}
+                                               className="form-control form-control-lg"
+                                               helperText={errorEmail?"Ingrese una direccion valida":""}
+                                               onChange={e=>{
+
+                                                   if(e.target.validity.typeMismatch){
+                                                        setErrorEmail(true)
+                                                        console.log(errorEmail)
+                                                   }else {
+                                                       setErrorEmail(false)
+                                                       setEmail(e.target.value)}
+                                                   }
+
+                                    }
                                                label={"Correo electronico"}
-                                               className="form-control form-control-lg"/>
+                                               />
                                 </div>
 
                                 <div className="form-outline mb-4">
                                     <TextField type="password"
-                                               onChange={e=> {setPassword(e.target.value)}}
+                                               required
+                                               error={errorPassword }
+                                               helperText={errorPassword?"Debe poseer 6 o más caracteres":""}
+                                               inputProps={{minLength:6}}
+                                               onChange={e=> {
+                                                   if(e.target.validity.tooShort){
+                                                       setErrorPassword(true)
+
+                                                   }else{
+                                                       setErrorPassword(false)
+                                                       setPassword(e.target.value)
+                                                   }
+
+                                               }
+                                    }
                                                className="form-control form-control-lg"
                                                label={"Contraseña"}/>
 
@@ -67,8 +103,12 @@ export default function Login(){
                                                         console.log(res)
                                                         window.location = window.location.href.replace("login", "dashboard")
 
+                                                    }else{
+
                                                     }
-                                                })
+                                                }).catch(error => {
+
+                                            })
                                         }}
                                         style={{
                                             backgroundColor:"#214A87",
