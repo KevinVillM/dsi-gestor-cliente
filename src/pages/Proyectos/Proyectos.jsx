@@ -1,5 +1,4 @@
 import React from 'react'
-import ResponsiveAppBar from '../../Componentes/ResponsiveAppBar.jsx'
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -31,12 +30,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 function Proyectos() {
 
-    function createData(nombreproyecto, descripción, fechaInicio,colaboradores, fechaFinal, eliminar) {
-        return { nombreproyecto, descripción, fechaInicio, colaboradores,  fechaFinal,eliminar };
+    function createData(nombreproyecto, descripción, propietario, estado, fechaInicio,colaboradores, fechaFinal, eliminar) {
+        return { nombreproyecto, descripción, propietario, estado, fechaInicio, colaboradores,  fechaFinal, eliminar };
     }
 
     const rows = [//metodo para agregar contenido a las tablas 
-        createData('Prueba', 'hola', 'inicio','Colaboradores', 'final'),
+       createData('Prueba', 'hola','Julano','finalizado', 'inicio','Colaboradores', 'final'),
 
     ];
     const handleEliminarMyProyect = () => {
@@ -84,7 +83,14 @@ function Proyectos() {
                             margin='normal'
                             
                         />
+                        <br />
+                        <TextField
+                            required
+                            id="EstadoProyecto"
+                            label="Estado del Proyecto"
+                            margin='normal'
 
+                        />
                         <br />
 
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -129,6 +135,8 @@ function Proyectos() {
                                     <TableRow>
                                         <TableCell>Nombre del Proyecto</TableCell>
                                         <TableCell align="right">Descripción</TableCell>
+                                        <TableCell align="right">Propietario</TableCell>
+                                        <TableCell align="right">Estado del proyecto</TableCell>
                                         <TableCell align="right">Fecha de Inicio</TableCell>
                                         <TableCell align="right">Colaboradores</TableCell>
                                         <TableCell align="right">Fecha Final</TableCell>
@@ -143,6 +151,8 @@ function Proyectos() {
                                                 {row.nombreproyecto}
                                             </TableCell>
                                             <TableCell align="right">{row.descripción}</TableCell>
+                                            <TableCell align="right">{row.propietario}</TableCell>
+                                            <TableCell align="right">{row.estado}</TableCell>
                                             <TableCell align="right">{row.fechaInicio}</TableCell>
                                             <TableCell align="right">{row.colaboradores}</TableCell>
                                             <TableCell align="right">{row.fechaFinal}</TableCell>
@@ -173,6 +183,8 @@ function Proyectos() {
                                     <TableRow>
                                         <TableCell>Nombre del Proyecto</TableCell>
                                         <TableCell align="right">Descripción</TableCell>
+                                        <TableCell align="right">Propietario</TableCell>
+                                        <TableCell align="right">Estado del proyecto</TableCell>
                                         <TableCell align="right">Fecha de Inicio</TableCell>
                                         <TableCell align="right">Colaboradores</TableCell>
                                         <TableCell align="right">Fecha Final</TableCell>
@@ -187,6 +199,8 @@ function Proyectos() {
                                                 {row.nombreproyecto}
                                             </TableCell>
                                             <TableCell align="right">{row.descripción}</TableCell>
+                                            <TableCell align="right">{row.propietario}</TableCell>
+                                            <TableCell align="right">{row.estado}</TableCell>
                                             <TableCell align="right">{row.fechaInicio}</TableCell>
                                             <TableCell align="right">{row.colaboradores}</TableCell>
                                             <TableCell align="right">{row.fechaFinal}</TableCell>
