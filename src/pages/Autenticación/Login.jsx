@@ -100,6 +100,7 @@ export default function Login(){
                                                         localStorage.setItem("usuario",res.usuario)
                                                         sessionStorage.setItem("token",res.token)
                                                         localStorage.setItem("isLogged",true)
+                                                        localStorage.setItem("nombreUsuario",res.usuario.nombre)
                                                         console.log(res)
                                                         window.location = window.location.href.replace("login", "dashboard")
 

@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react'
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import { IconButton, TextField } from '@mui/material';
+import {IconButton, InputLabel, List, ListItem, ListItemText, TextField} from '@mui/material';
 import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -20,16 +20,16 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-
-
-
-
+import {Label} from "@mui/icons-material";
 
 
 
 
 function Proyectos() {
 
+    const [proyectos,setProyectos] = useState([])
+    const [colaboradores,setColaboradores] = useState([])
+    const [colaboradorSeleccionado,setColaboradorSeleccionado] = useState("")
   
     const [estadoProyecto, setestadoProyecto] = useState("Seleccionar Estado");
     const cambioEstado =(e) =>{
@@ -47,6 +47,8 @@ function Proyectos() {
     setdateInicio(e.format().slice(0,10)+"T01:29:29.643Z")
 
    };
+
+
 
    const [nombreP,setnombreP] = useState("");
    const nombreProyecto =(e) =>{
@@ -75,11 +77,14 @@ function Proyectos() {
 
     };
 
+    const añadirColaboradores = (e) => {
+        setColaboradorSeleccionado(e.target.value)
+        colaboradores.push(e.target.value)
+        setColaboradores([...new Set(colaboradores)])
+    }
 
     const AgregarPoryecto = () => {
-      
         console.log(CrearProyecto());
-
     };
 
    // const usuarios = ObtenerUsuarios();
@@ -88,39 +93,21 @@ function Proyectos() {
     //obtenerYMostrarUsuarios();
 
     
-  useEffect(() => {
-    async function obtenerUsuarios() {
-      try {
-        const respuesta = await fetch("http://localhost:8080/api/usuarios");
-        const data = await respuesta.text();
-        const usuarios = JSON.parse(data);
-        setusuarios(usuarios);
-      } catch (error) {
-        console.error("Error al obtener los usuarios:", error);
-      }
-    }
-
-    async function obtenerYMostrarUsuarios() {
-        let usuarios;
-        try {
-           usuarios = await obtenerUsuarios();
-           console.log(usuarios)
-         
-        } catch (error) {
-          console.error("Error al obtener los usuarios:", error);
-        }
-        return usuarios;
-        
-      }
-
-    
-
-    console.log(obtenerYMostrarUsuarios());
-  }, []);
+ useEffect(()=>{
+     obtenerUsuarios().then(respuesta => {
+         const usuariosFiltrados = respuesta.usuarios.filter(user => !(user.uid === localStorage.getItem("uid")))
+         setusuarios(usuariosFiltrados)
+     })
+ },[])
   
-
- 
-
+    useEffect(()=>{
+        obtenerProyectos().then(respuesta => {
+            const proyectos = respuesta.proyectos
+            const proyectosPersonales = proyectos.filter( (proyecto) => proyecto.propietario === localStorage.getItem("uid") )
+            console.log(respuesta.proyectos)
+            setProyectos(proyectosPersonales)
+        })
+    },[])
 
     const CrearProyecto = async() => {
         //metodo para crear proyecto
@@ -132,7 +119,7 @@ function Proyectos() {
     var raw = JSON.stringify({
         "nombre": nombreP,
         "descripcion": descripcionP,
-        "propietario": "64500a36140b2e6f85fd87d0",
+        "propietario": localStorage.getItem("uid"),
         "estado_Proyecto":estadoProyecto,
         "create_date": dateInicio,
         "ending_date": dateFinal ,
@@ -191,8 +178,8 @@ function Proyectos() {
 
                         />
                         <br />
-                        
-                           
+
+                        <InputLabel id="demo-simple-select-label">Estado del proyecto</InputLabel>
                             <Select
                                 labelId="Estado"
                                 id="estado"
@@ -223,12 +210,31 @@ function Proyectos() {
 
                         <br />
 
-                        <TextField
-                            required
-                            id="BuscarColaborador"
-                            label="Agregar Colaboradores"
-                            margin='normal'
-                        />
+                        <InputLabel id="demo-simple-select-label">Seleccionar colaboradores</InputLabel>
+                        <Select
+                            label={"Colaboradores"}
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            onChange={añadirColaboradores}
+                            value={colaboradorSeleccionado}>
+                            { usuarios ?
+                                usuarios.map((user) =>{
+                                    return <MenuItem value={user}>{user.nombre}</MenuItem>
+                                })
+                                : ""
+                            }
+                        </Select>
+
+                        <InputLabel>Listado de colaboradores</InputLabel>
+                        <List>
+                            {
+                                colaboradores ?
+                                    colaboradores.map((colaborador) =>{
+                                        return <ListItemText>{colaborador.nombre}</ListItemText>
+                                    })
+                                    :''
+                            }
+                        </List>
                         <Stack spacing={1} direction="row">
 
                             <Button id='BtnAgregar' onClick={AgregarPoryecto} variant="contained">Agregar</Button>
@@ -239,6 +245,7 @@ function Proyectos() {
 
                     </Box>
                     <br />
+
 
                     <Box sx={{ bgcolor: '#e8eaf6', height: '100%' }} >
                         <h1 className='Cproyectos'>Mis Proyectos</h1>
@@ -259,17 +266,17 @@ function Proyectos() {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody id='BodyMyProyect'>
-                                    {rows.map((row) => (
-                                        <TableRow key={row.name}>
+                                    {proyectos.map((proyecto) => (
+                                        <TableRow key={proyecto.nombre}>
                                             <TableCell component="th" scope="row">
-                                                {row.nombreproyecto}
+                                                {proyecto.nombre}
                                             </TableCell>
-                                            <TableCell align="right">{row.descripción}</TableCell>
-                                            <TableCell align="right">{row.propietario}</TableCell>
-                                            <TableCell align="right">{row.estado}</TableCell>
-                                            <TableCell align="right">{row.fechaInicio}</TableCell>
-                                            <TableCell align="right">{row.colaboradores}</TableCell>
-                                            <TableCell align="right">{row.fechaFinal}</TableCell>
+                                            <TableCell align="right">{proyecto.descripcion}</TableCell>
+                                            <TableCell align="right">{localStorage.getItem("nombreUsuario")}</TableCell>
+                                            <TableCell align="right">{proyecto.estado_Proyecto}</TableCell>
+                                            <TableCell align="right">{proyecto.create_date}</TableCell>
+                                            <TableCell align="right">{proyecto.colaboradores.map((colab)=> colab.nombre+",") }</TableCell>
+                                            <TableCell align="right">{proyecto.ending_date}</TableCell>
                                             <TableCell align="right"> <IconButton
                                                 id='deleteMyProyect'
                                                 onClick={handleEliminarMyProyect}
@@ -310,14 +317,14 @@ function Proyectos() {
                                     {rows.map((row) => (
                                         <TableRow key={row.name}>
                                             <TableCell component="th" scope="row">
-                                                {row.nombreproyecto}
+                                                {row.nombre}
                                             </TableCell>
-                                            <TableCell align="right">{row.descripción}</TableCell>
+                                            <TableCell align="right">{row.descripcion}</TableCell>
                                             <TableCell align="right">{row.propietario}</TableCell>
-                                            <TableCell align="right">{row.estado}</TableCell>
-                                            <TableCell align="right">{row.fechaInicio}</TableCell>
-                                            <TableCell align="right">{row.colaboradores}</TableCell>
-                                            <TableCell align="right">{row.fechaFinal}</TableCell>
+                                            <TableCell align="right">{row.estado_Proyecto}</TableCell>
+                                            <TableCell align="right">{row.create_date}</TableCell>
+                                            <TableCell align="right">{row.colaboradores.map((colaborador) => colaborador.nombre)}</TableCell>
+                                            <TableCell align="right">{row.ending_date}</TableCell>
                                             <TableCell align="right">
                                                 <IconButton
                                                     id='deleteColaboraciones'
@@ -348,32 +355,24 @@ function Proyectos() {
 
     )
 }
-async function ObtenerUsuarios (){
+async function obtenerUsuarios (){
+    const respuesta = await fetch("http://localhost:8080/api/usuarios")
+    const usuarios = await respuesta.json()
 
-    try {
-        const respuesta = await fetch("http://localhost:8080/api/usuarios");
-        const data = await respuesta.text();
-        const usuarios = JSON.parse(data);
-        return usuarios;
-      } catch (error) {
-        console.error(error);
-        return [];
-      }
-
-
-
-}
-async function obtenerYMostrarUsuarios() {
-    let usuarios;
-    try {
-       usuarios = await ObtenerUsuarios();
-       console.log(usuarios)
-     
-    } catch (error) {
-      console.error("Error al obtener los usuarios:", error);
-    }
     return usuarios;
-    
-  }
+}
+
+async function obtenerProyectos(){
+    var myHeaders = new Headers();
+    myHeaders.append("x-token", sessionStorage.getItem("token"));
+    myHeaders.append("Content-Type", "application/json");
+
+    const respuesta = await fetch("http://localhost:8080/api/proyectos",{
+        method: "GET",
+        headers: myHeaders,
+    })
+    const proyectos = await respuesta.json()
+    return proyectos;
+}
 
 export default Proyectos;
