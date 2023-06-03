@@ -42,12 +42,20 @@ function Registro(){
                 </div>
             </div>
 
-            <div className={'row'}>
-                <a type={'button'} className={'btn btn-primary'}>Crear cuenta</a>
-            </div>
+
 
         </div>
+        <div className={'row text-center'}>
+            <div className={'col'}>
+                <a type={'button'} className={'btn btn-primary'}>Crear cuenta.</a>
 
+            </div>
+            <div className={'col'}>
+                <a type={'button'} className={'btn'} style={{backgroundColor:'#2F58CD',color:'white'}}>Iniciar sesión.</a>
+            </div>
+
+
+        </div>
     </div>
 
     </>
