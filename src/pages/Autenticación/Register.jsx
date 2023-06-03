@@ -15,12 +15,12 @@ function Registro(){
 
             <div className={'col-sm-6 mb-4'}>
                 <label className={'mb-4'}>Nombre completo</label>
-                <TextField className={'form-control form-control-lg mb-4'}/>
+                <TextField className={'form-control form-control-sm mb-4'}/>
                 <label className={'mb-4'}>Correo electronico</label>
-                <TextField className={'form-control form-control-md'}/>
+                <TextField className={'form-control form-control-sm'}/>
             </div>
 
-            <div className={'col-sm-6 d-flex justify-content-center'}>
+            <div className={'col-sm d-flex justify-content-center'}>
 
                 <div className={'align-self-center'}>
                     <h4>Seleccionar foto de perfil.</h4>
