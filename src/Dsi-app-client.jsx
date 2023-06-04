@@ -7,6 +7,7 @@ import GestionTareas from "./pages/Tareas/GestionTareas.jsx";
 import RequireAuth from "./pages/Autenticación/RequireAuth.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Register from "./pages/Autenticación/Register.jsx";
+import Perfil from "./pages/Perfil/Perfil.jsx";
 export const App = () => {
     return (
       <BrowserRouter>
@@ -17,7 +18,9 @@ export const App = () => {
                 <Route path={"/dashboard"} element={<Dashboard><Inicio/></Dashboard>}></Route>
                 <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>
                 <Route path={"/tareas"} element={<Dashboard><GestionTareas/></Dashboard>}></Route>
+                <Route path={"/perfil"} element={<Dashboard><Perfil/></Dashboard>}/>
             </Route>
+
 
         </Routes>
       </BrowserRouter>

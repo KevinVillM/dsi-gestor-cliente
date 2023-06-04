@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import {useNavigate} from "react-router-dom";
 
 const pages = ['Proyectos', 'Mis tareas'];
 const settings = ['Perfil', 'Cerrar sesión'];
@@ -19,6 +20,8 @@ const settings = ['Perfil', 'Cerrar sesión'];
 function ResponsiveAppBar(props) {
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+    const navigate = useNavigate()
 
      function cerrarSesion(){
          localStorage.clear()
@@ -93,7 +96,7 @@ function ResponsiveAppBar(props) {
                             >
                                 {pages.map((page) => (
                                     <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                        <Typography textAlign="center">{page}</Typography>
+                                            <Typography textAlign="center">{page}</Typography>
                                     </MenuItem>
                                 ))}
                             </Menu>
@@ -157,6 +160,8 @@ function ResponsiveAppBar(props) {
 
                                         switch (setting) {
                                             case "Cerrar sesión": cerrarSesion();
+                                            break;
+                                            case "Perfil": navigate("/perfil");
                                             break;
                                         }
                                     }}>
