@@ -20,43 +20,68 @@ function Registro(){
 
     //Misc
     let [progressBarActive,setProgressBarActive] = useState(false)
+    let [disablePassConfirm,setDisablePassConfirm] = useState(true)
 
     const changeNombre  = e => {
         setNombre(e.target.value)
     }
 
     const changePassword = e =>{
-        if(e.validity.tooShort){
+        const target = e.target
+        if(target.validity.tooShort || target.value === ''){
             setErrorPasswordTooShort(true)
+            setDisablePassConfirm(true)
             return;
         }
 
+        setDisablePassConfirm(false)
         setErrorPasswordTooShort(false)
-        setPassword(e.target.value)
+        setPassword(target.value)
     }
 
     const changePasswordConfirm = e => {
-
-        if (e.validity.tooShort === true){
-            setErrorPasswordTooShort(true)
+        const target = e.target
+        if (target.validity.tooShort === true){
+            setErrorPassConfirmTooShort(true)
             return;
         }
 
+
         setErrorPassConfirmTooShort(false)
-        setPasswordConfirm(e.target.value)
+        setPasswordConfirm(target.value)
+
+
     }
 
     const changeEmail = e => {
-        if(e.validity.typeMismatch){
+        const target = e.target
+        if(target.validity.typeMismatch){
             setErrorEmailFormat(true)
             return;
         }
         setErrorEmailFormat(false)
-        setEmail(e.target.value)
+        setEmail(target.value)
     }
 
+    const passwordErrorText = (tooShort,NonMatching) =>{
+        if(tooShort) return 'La contraseña debe tener almenos 6 carateres.'
+        if (NonMatching) return 'Las contraseñas no coinciden'
 
-    const crearCuenta = () => {
+
+        return "";
+
+    }
+
+    //TO-DO validar las que las contraseñas coincidan, si es asi, llamar a la funcion para crear cuenta
+    const validatePasswordMatching = () => {
+
+    }
+
+    const imprimirValores = () =>{
+        console.log(`Pass ${password}\nConfirm ${passwordConfirm}`)
+    }
+
+    const createAccount = () => {
 
         const headers = new Headers
         const usuario = {
@@ -84,7 +109,6 @@ function Registro(){
                 }
             })
 
-
     }
 
 
@@ -101,7 +125,7 @@ function Registro(){
                 <TextField className={'form-control form-control-sm'}
                            type={'email'}
                            error={errorEmailFormat}
-                           helperText={'Introduzca un email valido.'}
+                           helperText={ errorEmailFormat ? 'Introduzca un email valido.' :''}
                            onChange={changeEmail}
                            required/>
             </div>
@@ -123,11 +147,8 @@ function Registro(){
                     <TextField className={'form-control'}
                                type={'password'}
                                required
-                               error={errorPasswordTooShort | errorNonMatchingPasswords}
-                               helperText={errorPassConfirmTooShort ?
-                                   'La contraseña debe tener almenos 6 caracteres'
-                                   :'Las contraseñas no coinciden.'
-                               }
+                               error={errorPasswordTooShort || errorNonMatchingPasswords}
+                               helperText={passwordErrorText(errorPasswordTooShort,errorNonMatchingPasswords)}
                                onChange={changePassword}
                                inputProps={{minLength:6}}/>
                 </div>
@@ -137,13 +158,12 @@ function Registro(){
                     <TextField className={'form-control'}
                                type={'password'}
                                required
-                               error={errorPassConfirmTooShort | errorNonMatchingPasswords}
-                               helperText={errorPassConfirmTooShort ?
-                                   'La contraseña debe tener almenos 6 caracteres'
-                                   :'Las contraseñas no coinciden.'
-                               }
+                               placeholder={disablePassConfirm ? 'Introduzca una contraseña para habilitar':''}
+                               disabled={disablePassConfirm}
+                               error={errorPassConfirmTooShort || errorNonMatchingPasswords}
+                               helperText={passwordErrorText(errorPassConfirmTooShort,errorNonMatchingPasswords)}
                                onChange={changePasswordConfirm}
-                               inputProps={{minLenght:6}}/>
+                               inputProps={{minLength:6}}/>
                 </div>
             </div>
 
@@ -153,11 +173,11 @@ function Registro(){
         <div className={'row text-center'}>
 
             <div className={'col'}>
-                <a type={'button'} className={'btn btn-primary'} onClick={}>Crear cuenta.</a>
+                <a type={'button'} className={'btn btn-primary'}>Crear cuenta.</a>
             </div>
 
             <div className={'col'}>
-                <a type={'button'} className={'btn'} style={{backgroundColor:'#2F58CD',color:'white'}}>Iniciar sesión.</a>
+                <a type={'button'} onClick={imprimirValores} className={'btn'} style={{backgroundColor:'#2F58CD',color:'white'}}>Iniciar sesión.</a>
             </div>
 
 
