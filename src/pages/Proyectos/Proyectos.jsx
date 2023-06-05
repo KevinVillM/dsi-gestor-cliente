@@ -2,7 +2,7 @@ import React, { useState,useEffect } from 'react'
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import {IconButton, InputLabel, List, ListItem, ListItemText, TextField} from '@mui/material';
+import { InputLabel, List, ListItemText, TextField} from '@mui/material';
 import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -10,17 +10,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import {Label} from "@mui/icons-material";
+import ListaProyectos from './ListaProyectos';
+import Colaboraciones from './Colaboraciones';
 
 
 
@@ -44,7 +37,7 @@ function Proyectos() {
 
    const [dateFinal, setdateFinal]= useState("");
    const dateFin=(e) =>{
-    setdateInicio(e.format().slice(0,10)+"T01:29:29.643Z")
+    setdateFinal(e.format().slice(0,10)+"T01:29:29.643Z")
 
    };
 
@@ -68,14 +61,8 @@ function Proyectos() {
        
 
     ];
-    const handleEliminarMyProyect = () => {
-        //metodo para eliminar proyectos
-
-    };
-    const handleEliminarColaboraciones = () => {
-        //metodo para eliminar colaboraciones de proyectos
-
-    };
+  
+  
 
     const añadirColaboradores = (e) => {
         setColaboradorSeleccionado(e.target.value)
@@ -90,7 +77,7 @@ function Proyectos() {
    // const usuarios = ObtenerUsuarios();
    // console.log(usuarios);
   
-    
+    //obtenerYMostrarUsuarios();
 
     
  useEffect(()=>{
@@ -99,15 +86,18 @@ function Proyectos() {
          setusuarios(usuariosFiltrados)
      })
  },[])
+
+ useEffect(()=>{
+    obtenerProyectos().then(respuesta => {
+        const proyectos = respuesta.proyectos
+        const proyectosPersonales = proyectos.filter( (proyecto) => proyecto.propietario === localStorage.getItem("uid") )
+        console.log(respuesta.proyectos)
+        setProyectos(proyectosPersonales)
+    })
+},[])
+
   
-    useEffect(()=>{
-        obtenerProyectos().then(respuesta => {
-            const proyectos = respuesta.proyectos
-            const proyectosPersonales = proyectos.filter( (proyecto) => proyecto.propietario === localStorage.getItem("uid") )
-            console.log(respuesta.proyectos)
-            setProyectos(proyectosPersonales)
-        })
-    },[])
+  
 
     const CrearProyecto = async() => {
         //metodo para crear proyecto
@@ -246,103 +236,13 @@ function Proyectos() {
                     </Box>
                     <br />
 
+                    <ListaProyectos proyectos={proyectos}  />
 
-                    <Box sx={{ bgcolor: '#e8eaf6', height: '100%' }} >
-                        <h1 className='Cproyectos'>Mis Proyectos</h1>
-                        <TableContainer id='MyProyects' component={Paper}>
-                            <Table id='MyProyect' sx={{ minWidth: 650 }} aria-label="MisProyectos">
+             <br></br>      
+                       
+             <Colaboraciones rows={rows}  />
 
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Nombre del Proyecto</TableCell>
-                                        <TableCell align="right">Descripción</TableCell>
-                                        <TableCell align="right">Propietario</TableCell>
-                                        <TableCell align="right">Estado del proyecto</TableCell>
-                                        <TableCell align="right">Fecha de Inicio</TableCell>
-                                        <TableCell align="right">Colaboradores</TableCell>
-                                        <TableCell align="right">Fecha Final</TableCell>
-                                        <TableCell align="right"></TableCell>
-
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody id='BodyMyProyect'>
-                                    {proyectos.map((proyecto) => (
-                                        <TableRow key={proyecto.nombre}>
-                                            <TableCell component="th" scope="row">
-                                                {proyecto.nombre}
-                                            </TableCell>
-                                            <TableCell align="right">{proyecto.descripcion}</TableCell>
-                                            <TableCell align="right">{localStorage.getItem("nombreUsuario")}</TableCell>
-                                            <TableCell align="right">{proyecto.estado_Proyecto}</TableCell>
-                                            <TableCell align="right">{proyecto.create_date}</TableCell>
-                                            <TableCell align="right">{proyecto.colaboradores.map((colab)=> colab.nombre+",") }</TableCell>
-                                            <TableCell align="right">{proyecto.ending_date}</TableCell>
-                                            <TableCell align="right"> <IconButton
-                                                id='deleteMyProyect'
-                                                onClick={handleEliminarMyProyect}
-                                                color="inherit">
-                                                <DeleteIcon />
-
-                                            </IconButton>
-                                            </TableCell>
-
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <br />
-
-                    </Box>
-                    <br />
-                    <Box sx={{ bgcolor: '#e8eaf6', height: '100%' }} >
-                        <h1 className='Cproyectos'>Colaboraciones</h1>
-                        <TableContainer id='ColaboracionesProyect' component={Paper}>
-                            <Table id='TableColaboraciones' sx={{ minWidth: 650 }} aria-label="colaboraciones">
-
-                                <TableHead>
-                                    <TableRow>
-                                        <TableCell>Nombre del Proyecto</TableCell>
-                                        <TableCell align="right">Descripción</TableCell>
-                                        <TableCell align="right">Propietario</TableCell>
-                                        <TableCell align="right">Estado del proyecto</TableCell>
-                                        <TableCell align="right">Fecha de Inicio</TableCell>
-                                        <TableCell align="right">Colaboradores</TableCell>
-                                        <TableCell align="right">Fecha Final</TableCell>
-                                        <TableCell align="right"></TableCell>
-
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody id='BodyColaboraciones'>
-                                    {rows.map((row) => (
-                                        <TableRow key={row.name}>
-                                            <TableCell component="th" scope="row">
-                                                {row.nombre}
-                                            </TableCell>
-                                            <TableCell align="right">{row.descripcion}</TableCell>
-                                            <TableCell align="right">{row.propietario}</TableCell>
-                                            <TableCell align="right">{row.estado_Proyecto}</TableCell>
-                                            <TableCell align="right">{row.create_date}</TableCell>
-                                            <TableCell align="right">{row.colaboradores.map((colaborador) => colaborador.nombre)}</TableCell>
-                                            <TableCell align="right">{row.ending_date}</TableCell>
-                                            <TableCell align="right">
-                                                <IconButton
-                                                    id='deleteColaboraciones'
-                                                    onClick={handleEliminarColaboraciones}
-                                                    color="inherit">
-                                                    <DeleteIcon></DeleteIcon>
-
-                                                </IconButton>
-                                            </TableCell>
-
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <br />
-
-                    </Box>
+             <br />
 
 
                 </Container>
@@ -361,7 +261,6 @@ async function obtenerUsuarios (){
 
     return usuarios;
 }
-
 async function obtenerProyectos(){
     var myHeaders = new Headers();
     myHeaders.append("x-token", sessionStorage.getItem("token"));
