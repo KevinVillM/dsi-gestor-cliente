@@ -36,7 +36,11 @@ function Perfil(){
                         <div className={'d-flex justify-content-center'}>
                             {
                                 informacionPersonal ?
-                                    <img alt={'Foto de perfil'} />
+
+                                    //<img alt={'Foto de perfil'} />
+                                    <Avatar src={'/'}
+                                            alt={localStorage.getItem('nombreUsuario')}
+                                            sx={{ width: 150, height: 150 }}><h1>{localStorage.getItem('nombreUsuario')[0] }</h1></Avatar>
                                     :
                                     <Skeleton variant={'circular'}>
                                         <Avatar sx={{ width: 150, height: 150 }} />
