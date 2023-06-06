@@ -10,8 +10,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function ListaProyectos({ proyectos}) {
-
+function ListaProyectos({ proyectos, eliminarProyecto}) {
+  
+ 
+    
  
     
   return (
@@ -36,7 +38,7 @@ function ListaProyectos({ proyectos}) {
             </TableHead>
             <TableBody id='BodyMyProyect'>
                 {proyectos.map((proyecto) => (
-                    <TableRow key={proyecto.nombre}>
+                    <TableRow key={proyecto.uid}>
                         <TableCell component="th" scope="row">
                             {proyecto.nombre}
                         </TableCell>
@@ -48,7 +50,7 @@ function ListaProyectos({ proyectos}) {
                         <TableCell align="right">{proyecto.ending_date}</TableCell>
                         <TableCell align="right"> <IconButton
                             id='deleteMyProyect'
-                            onClick={""}
+                            onClick={() => eliminarProyecto(proyecto.uid)}
                             color="inherit">
                             <DeleteIcon />
 

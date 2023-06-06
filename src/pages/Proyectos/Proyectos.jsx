@@ -23,7 +23,7 @@ function Proyectos() {
     const [proyectos,setProyectos] = useState([])
     const [colaboradores,setColaboradores] = useState([])
     const [colaboradorSeleccionado,setColaboradorSeleccionado] = useState("")
-  
+   
     const [estadoProyecto, setestadoProyecto] = useState("Seleccionar Estado");
     const cambioEstado =(e) =>{
         setestadoProyecto(e.target.value)
@@ -72,6 +72,7 @@ function Proyectos() {
 
     const AgregarPoryecto = () => {
         console.log(CrearProyecto());
+        window.location.reload();
     };
 
    // const usuarios = ObtenerUsuarios();
@@ -134,6 +135,30 @@ function Proyectos() {
     
       return proyecto;
     }
+
+    const eliminarProyecto = (uid) => {
+        fetch(`http://localhost:8080/api/proyectos/${uid}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-token': sessionStorage.getItem('token'),
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.success) {
+              // Eliminar el proyecto directamente del estado local sin recargar la página
+              setProyectos((prevProyectos) => prevProyectos.filter((proyecto) => proyecto.uid !== uid));
+             
+            } else {
+              console.log(data.message);
+            }
+          })
+          .catch((error) => {
+            console.log('Error al eliminar el proyecto:', error);
+          });
+      };
+      
 
     return (
         <>
@@ -236,7 +261,7 @@ function Proyectos() {
                     </Box>
                     <br />
 
-                    <ListaProyectos proyectos={proyectos}  />
+                    <ListaProyectos proyectos={proyectos} eliminarProyecto={eliminarProyecto} />
 
              <br></br>      
                        
