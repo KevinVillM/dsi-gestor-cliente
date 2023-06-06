@@ -2,6 +2,7 @@ import react, {useState} from 'react'
 import {TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import {Image} from "@mui/icons-material";
+import Avatar from "@mui/material/Avatar";
 
 
 function Registro(){
@@ -10,6 +11,7 @@ function Registro(){
     let [password,setPassword] = useState();
     let [passwordConfirm,setPasswordConfirm] = useState();
     let [email,setEmail] = useState();
+    let [fotoPerfil,setFotoPerfil] = useState()
 
     //Errores
     let [errorPasswordTooShort,setErrorPasswordTooShort] = useState(false)
@@ -81,6 +83,14 @@ function Registro(){
         console.log(`Pass ${password}\nConfirm ${passwordConfirm}`)
     }
 
+    const profilePictureSelection = e => {
+        const target = e.target
+        if(target.files){
+            setFotoPerfil(e.target.files[0])
+        }
+
+    }
+
     const createAccount = () => {
 
         const headers = new Headers
@@ -111,7 +121,6 @@ function Registro(){
 
     }
 
-
     return <>
 
     <div className={'container'}>
@@ -133,9 +142,28 @@ function Registro(){
             <div className={'col-sm d-flex justify-content-center'}>
 
                 <div className={'align-self-center'}>
-                    <h4>Seleccionar foto de perfil.</h4>
-                        <Image />
-                        <input type={'file'}/>
+                    {
+                        fotoPerfil ?
+                            <>
+                                <div style={{display:"block"}}>
+                                    <Avatar src={URL.createObjectURL(fotoPerfil)}
+                                        //className={'img-thumbnail rounded'}
+                                           
+                                    />
+                                </div>
+
+                                <button onClick={()=>setFotoPerfil(undefined)}>Eliminar.</button>
+                            </>
+                            :
+                            <>
+                                <h4>Seleccionar foto de perfil.</h4>
+                                <Image />
+                                <input  type={'file'} accept={'.jpg,.png,jpgeg'} onChange={profilePictureSelection}/>
+                            </>
+
+
+                    }
+
                 </div>
 
 
