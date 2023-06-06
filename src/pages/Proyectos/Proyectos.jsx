@@ -144,15 +144,17 @@ function Proyectos() {
             'x-token': sessionStorage.getItem('token'),
           },
         })
-          .then((response) => response.json())
+          .then((response) => {
+           let listaMysProyectos =  proyectos.filter(proyecto => proyecto.uid != uid);
+           setProyectos(listaMysProyectos);
+
+             return response.json()
+        })
           .then((data) => {
-            if (data.success) {
-              // Eliminar el proyecto directamente del estado local sin recargar la página
-              setProyectos((prevProyectos) => prevProyectos.filter((proyecto) => proyecto.uid !== uid));
-             
-            } else {
-              console.log(data.message);
+            if (data.proyecto){
+
             }
+          
           })
           .catch((error) => {
             console.log('Error al eliminar el proyecto:', error);
