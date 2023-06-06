@@ -9,9 +9,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-function ListaProyectos({ proyectos, eliminarProyecto}) {
-  
+function ListaProyectos({ proyectos, confirmarEliminacion}) {
+ 
  
     
  
@@ -33,6 +34,7 @@ function ListaProyectos({ proyectos, eliminarProyecto}) {
                     <TableCell align="right">Colaboradores</TableCell>
                     <TableCell align="right">Fecha Final</TableCell>
                     <TableCell align="right"></TableCell>
+                    <TableCell align="right"></TableCell>
 
                 </TableRow>
             </TableHead>
@@ -50,9 +52,17 @@ function ListaProyectos({ proyectos, eliminarProyecto}) {
                         <TableCell align="right">{proyecto.ending_date}</TableCell>
                         <TableCell align="right"> <IconButton
                             id='deleteMyProyect'
-                            onClick={() => eliminarProyecto(proyecto.uid)}
+                            onClick={() => confirmarEliminacion(proyecto.uid)}
                             color="inherit">
                             <DeleteIcon />
+
+                        </IconButton>
+                        </TableCell>
+                        <TableCell align="right"> <IconButton
+                            id='editarMyProyect'
+                            onClick={""}
+                            color="inherit">
+                            <EditIcon />
 
                         </IconButton>
                         </TableCell>

@@ -13,7 +13,6 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import ListaProyectos from './ListaProyectos';
-import Colaboraciones from './Colaboraciones';
 
 
 
@@ -71,9 +70,11 @@ function Proyectos() {
     }
 
     const AgregarPoryecto = () => {
-        console.log(CrearProyecto());
-        window.location.reload();
-    };
+        CrearProyecto().then(() => {
+          window.location.reload();
+        });
+      };
+      
 
    // const usuarios = ObtenerUsuarios();
    // console.log(usuarios);
@@ -114,10 +115,8 @@ function Proyectos() {
         "estado_Proyecto":estadoProyecto,
         "create_date": dateInicio,
         "ending_date": dateFinal ,
-        "colaboradores": [
-          "64500a36140b2e6f85fd87d0",
-          "644ffa6c27d474ca5aa764d5"
-        ]
+        "colaboradores":colaboradores.map((colaborador) => colaborador.uid)
+        
     });
     
     
@@ -136,6 +135,8 @@ function Proyectos() {
       return proyecto;
     }
 
+
+
     const eliminarProyecto = (uid) => {
         fetch(`http://localhost:8080/api/proyectos/${uid}`, {
           method: 'DELETE',
@@ -147,7 +148,7 @@ function Proyectos() {
           .then((response) => {
            let listaMysProyectos =  proyectos.filter(proyecto => proyecto.uid != uid);
            setProyectos(listaMysProyectos);
-
+           alert('El proyecto ha sido eliminado exitosamente.');
              return response.json()
         })
           .then((data) => {
@@ -159,6 +160,13 @@ function Proyectos() {
           .catch((error) => {
             console.log('Error al eliminar el proyecto:', error);
           });
+      };
+      
+
+      const confirmarEliminacion = (uid) => {
+        if (window.confirm('¿Estás seguro de que deseas eliminar este proyecto?')) {
+          eliminarProyecto(uid);
+        }
       };
       
 
@@ -263,11 +271,11 @@ function Proyectos() {
                     </Box>
                     <br />
 
-                    <ListaProyectos proyectos={proyectos} eliminarProyecto={eliminarProyecto} />
+                    <ListaProyectos proyectos={proyectos} confirmarEliminacion={confirmarEliminacion} />
 
              <br></br>      
                        
-             <Colaboraciones rows={rows}  />
+       
 
              <br />
 
