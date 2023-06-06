@@ -1,4 +1,4 @@
-import * as React from 'react';
+import react from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,15 +13,19 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const pages = ['Proyectos', 'Mis tareas'];
 const settings = ['Perfil', 'Cerrar sesión'];
 
 function ResponsiveAppBar(props) {
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = useState(null);
+    const [anchorElUser, setAnchorElUser] = useState(null);
+
+    const [avatar,setAvatar] = useState()
 
     const navigate = useNavigate()
+
 
      function cerrarSesion(){
          localStorage.clear()
@@ -41,6 +45,20 @@ function ResponsiveAppBar(props) {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+
+    //TO-DO cargar la imagen del usuario
+    const configAvatar = () => {
+
+       const headers = new Headers
+
+        headers.append("x-token", sessionStorage.getItem("token"))
+
+        fetch(`http://localhost:8080/api/usuarios/${localStorage.getItem('uid')}`,{
+            headers:headers,
+            method:'get'
+        })
+
+    }
 
     return(<>
             <AppBar position="static" style={{background:'#214A87'}}>
@@ -135,7 +153,7 @@ function ResponsiveAppBar(props) {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Opciones">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                    <Avatar alt={localStorage.getItem('nombreUsuario')} src="/static/images/avatar/2.jpg" />
                                 </IconButton>
                             </Tooltip>
                             <Menu
