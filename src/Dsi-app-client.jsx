@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import Register from "./pages/Autenticación/Register.jsx";
 import Perfil from "./pages/Perfil/Perfil.jsx";
 import ListaMisProyectos from "./pages/Proyectos/ListaMisProyectos.jsx";
+import Proyecto from "./pages/Proyectos/Proyecto.jsx";
 export const App = () => {
     return (
       <BrowserRouter>
@@ -21,6 +22,7 @@ export const App = () => {
                 <Route path={'/misproyectos'} element={<Dashboard><ListaMisProyectos/></Dashboard>}/>
                 <Route path={"/tareas"} element={<Dashboard><GestionTareas/></Dashboard>}></Route>
                 <Route path={"/perfil"} element={<Dashboard><Perfil/></Dashboard>}/>
+                <Route path={'/proyecto'} element={<Dashboard><Proyecto/></Dashboard>}/>
             </Route>
 
 
