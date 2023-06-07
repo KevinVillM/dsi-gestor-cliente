@@ -33,14 +33,13 @@ function Proyecto(){
                    required
                    fullWidth
                    defaultValue={'No iniciado'}
-
                    select>
                    <MenuItem key={'No iniciado'} value={'No iniciado'}>No iniciado</MenuItem>
                    <MenuItem key={'En proceso'} value={'En proceso'}>En proceso</MenuItem>
                    <MenuItem key ={'Finalizado'} value={3}>Finalizado</MenuItem>
                </TextField>
 
-            
+
             </Grid>
 
         </Grid>

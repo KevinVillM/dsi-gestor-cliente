@@ -1,11 +1,13 @@
 import react, {useEffect, useState} from 'react'
 import Typography from "@mui/material/Typography";
-import {Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Grid, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {Edit} from "@mui/icons-material";
+import {Add, Edit} from "@mui/icons-material";
 import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
 
 
 function ListaMisProyectos(){
@@ -34,20 +36,29 @@ function ListaMisProyectos(){
 
     return <>
 
-        <div className={'container center-text'}>
+        <div className={'container'}>
 
-            <Typography className={'mb-4'}
-                        variant={'h3'}>Mis Proyectos.</Typography>
+            <Grid container alignItems={'center'}  className={'mb-4'}>
+                <Grid item xs={8}>
+                    <Typography variant={'h3'}>Mis Proyectos.</Typography>
+                </Grid >
+                <Grid item xs={4} >
+                    <Button variant={'contained'} endIcon={<Add/>}>Nuevo proyecto</Button>
+                </Grid>
+            </Grid>
+
+
+
             {listaProyectos ?
 
                     <TableContainer clasName={'mb-4'} sx={{maxHeight:500}}>
-                        <Table stickyHeader >
+                        <Table stickyHeader size={'small'}>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Nombre del proyecto.</TableCell>
                                     <TableCell>Descripción.</TableCell>
                                     <TableCell className={'sm'}>Estado.</TableCell>
-                                    <TableCell>Acciones.</TableCell>
+                                    <TableCell align={'center'}>Acciones.</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -58,15 +69,20 @@ function ListaMisProyectos(){
                                             <TableCell>{proyecto.nombre}</TableCell>
                                             <TableCell>{proyecto.descripcion}</TableCell>
                                             <TableCell>{proyecto.estado_Proyecto}</TableCell>
-                                            <TableCell>
+                                            <TableCell align={'center'}>
+                                               <Tooltip title={'Agregar tarea'}>
+                                                   <IconButton color={'primary'}>
+                                                       <Add/>
+                                                   </IconButton>
+                                               </Tooltip>
+                                                <Tooltip title={'Editar proyecto'}>
+                                                    <IconButton color={'success'}>
+                                                        <Edit/>
+                                                    </IconButton>
+                                                </Tooltip>
                                                 <Tooltip title={'Borrar proyecto'}>
                                                     <IconButton color={'error'} onClick={() => {deleteProject(proyecto.uid)}}>
                                                         <DeleteIcon/>
-                                                    </IconButton>
-                                                </Tooltip>
-                                                <Tooltip title={'Editar o ver detalles del proyecto'}>
-                                                    <IconButton color={'success'}>
-                                                        <Edit/>
                                                     </IconButton>
                                                 </Tooltip>
 
