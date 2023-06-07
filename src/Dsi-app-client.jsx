@@ -8,6 +8,7 @@ import RequireAuth from "./pages/Autenticación/RequireAuth.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import Register from "./pages/Autenticación/Register.jsx";
 import Perfil from "./pages/Perfil/Perfil.jsx";
+import ListaMisProyectos from "./pages/Proyectos/ListaMisProyectos.jsx";
 export const App = () => {
     return (
       <BrowserRouter>
@@ -17,6 +18,7 @@ export const App = () => {
             <Route element={<RequireAuth isLogged={localStorage.getItem("isLogged") === "true"}/> } >
                 <Route path={"/dashboard"} element={<Dashboard><Inicio/></Dashboard>}></Route>
                 <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>
+                <Route path={'/misproyectos'} element={<Dashboard><ListaMisProyectos/></Dashboard>}/>
                 <Route path={"/tareas"} element={<Dashboard><GestionTareas/></Dashboard>}></Route>
                 <Route path={"/perfil"} element={<Dashboard><Perfil/></Dashboard>}/>
             </Route>
