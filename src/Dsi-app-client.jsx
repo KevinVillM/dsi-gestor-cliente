@@ -10,8 +10,12 @@ import Register from "./pages/Autenticación/Register.jsx";
 import Perfil from "./pages/Perfil/Perfil.jsx";
 import ListaMisProyectos from "./pages/Proyectos/ListaMisProyectos.jsx";
 import Proyecto from "./pages/Proyectos/Proyecto.jsx";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import 'dayjs/locale/es-mx.js'
 export const App = () => {
     return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'es-mx'}>
       <BrowserRouter>
         <Routes>
             <Route path ={"/login"} element={<Login/>}></Route>
@@ -28,6 +32,7 @@ export const App = () => {
 
         </Routes>
       </BrowserRouter>
+        </LocalizationProvider>
     );
 };
 

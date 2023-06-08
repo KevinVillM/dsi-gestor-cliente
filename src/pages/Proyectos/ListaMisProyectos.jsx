@@ -71,12 +71,12 @@ function ListaMisProyectos(){
                                             <TableCell>{proyecto.estado_Proyecto}</TableCell>
                                             <TableCell align={'center'}>
                                                <Tooltip title={'Agregar tarea'}>
-                                                   <IconButton color={'primary'}>
+                                                   <IconButton color={'success'}>
                                                        <Add/>
                                                    </IconButton>
                                                </Tooltip>
                                                 <Tooltip title={'Editar proyecto'}>
-                                                    <IconButton color={'success'}>
+                                                    <IconButton color={'primary'}>
                                                         <Edit/>
                                                     </IconButton>
                                                 </Tooltip>
