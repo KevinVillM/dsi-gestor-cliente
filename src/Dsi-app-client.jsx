@@ -23,10 +23,16 @@ export const App = () => {
             <Route element={<RequireAuth isLogged={localStorage.getItem("isLogged") === "true"}/> } >
                 <Route path={"/dashboard"} element={<Dashboard><Inicio/></Dashboard>}></Route>
                 <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>
-                <Route path={'/misproyectos'} element={<Dashboard><ListaMisProyectos/></Dashboard>}/>
+
                 <Route path={"/tareas"} element={<Dashboard><GestionTareas/></Dashboard>}></Route>
                 <Route path={"/perfil"} element={<Dashboard><Perfil/></Dashboard>}/>
-                <Route path={'/proyecto'} element={<Dashboard><Proyecto/></Dashboard>}/>
+                <Route path={'/misproyectos'} element={<Dashboard><ListaMisProyectos/></Dashboard>}/>
+                <Route path={'/misproyectos/proyecto'} element={<Dashboard><Proyecto/></Dashboard>}/>
+                <Route path={'/misproyectos/proyecto/:id/editar'} element={<Dashboard><Proyecto/></Dashboard>} />
+
+
+
+
             </Route>
 
 

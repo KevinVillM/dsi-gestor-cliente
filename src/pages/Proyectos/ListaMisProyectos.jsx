@@ -8,12 +8,14 @@ import Tooltip from "@mui/material/Tooltip";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import {Link, useNavigate} from "react-router-dom";
 
 
 function ListaMisProyectos(){
 
     let [listaProyectos,setListaProyectos] = useState()
 
+    let navigate = useNavigate()
     //TO-DO implementar logica para borrar en la bd
     const deleteProject = (uid)=>{
 
@@ -30,7 +32,8 @@ function ListaMisProyectos(){
             method:'get',
             headers:header
         }).then(rawResponse => rawResponse.json())
-            .then(response => setListaProyectos(response.proyectos))
+            .then(response => {setListaProyectos(response.proyectos)
+            console.log(response.proyectos)})
 
     },[])
 
@@ -51,7 +54,7 @@ function ListaMisProyectos(){
 
             {listaProyectos ?
 
-                    <TableContainer clasName={'mb-4'} sx={{maxHeight:500}}>
+                    <TableContainer className={'mb-4'} sx={{maxHeight:500}}>
                         <Table stickyHeader size={'small'}>
                             <TableHead>
                                 <TableRow>
@@ -76,8 +79,11 @@ function ListaMisProyectos(){
                                                    </IconButton>
                                                </Tooltip>
                                                 <Tooltip title={'Editar proyecto'}>
-                                                    <IconButton color={'primary'}>
+                                                    <IconButton color={'primary'} onClick={() => {
+                                                        navigate(`/misproyectos/proyecto/${proyecto.uid}/editar`)
+                                                    }}>
                                                         <Edit/>
+
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title={'Borrar proyecto'}>
