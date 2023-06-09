@@ -171,7 +171,7 @@ function Proyecto(){
                                 autoComplete={true}
                                 noOptionsText={'Sin resultados'}
                                 filterOptions={(opciones,seleccion) => {
-                                    const filteredOptions = opciones.filter(option => option.nombre.search(seleccion.inputValue) !=== -1 )
+                                    const filteredOptions = opciones.filter(option => option.nombre.search(seleccion.inputValue) !== -1 )
                                     return filteredOptions
                                 }
                                 }
