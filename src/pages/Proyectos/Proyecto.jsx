@@ -6,7 +6,7 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import {useParams, useSearchParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 
 
@@ -17,14 +17,12 @@ function Proyecto(){
     const ListItem = styled('li')(({ theme }) => ({
         margin: theme.spacing(0.5),
     }));
-
     /*
     * TODO
     *
     * Popular los campos en base al proyecto
     * Implementar el reducer al cambiar algun estado del proyecto
     * */
-
 
     const [newProject,setNewProject] = useState()
     const [project,setProject] = useState()
@@ -65,8 +63,6 @@ function Proyecto(){
 
 
     },[])
-
-
 
     const deleteCollaborator = () =>{
 
@@ -160,7 +156,6 @@ function Proyecto(){
                                  />
                         </Grid>
 
-
                         <Grid item xs={6}>
                            
                             <Autocomplete
@@ -178,7 +173,6 @@ function Proyecto(){
 
                                 renderInput={(params) => <TextField {...params} label={'Añadir colaboradores'} />}/>
                         </Grid>
-
 
                         <Grid item xs={12}>
                             <Paper  sx={{

@@ -16,7 +16,7 @@ function Inicio(){
             <Grid container spacing={1}>
                 <Grid item xs={6}>
                     <OpcionCard titulo={"Mis proyectos"} desc={"Descripción"} handler={()=>{
-                       navigate('/proyectos')
+                       navigate('/misproyectos')
                     }}/>
                 </Grid>
                 <Grid item xs={6}>
