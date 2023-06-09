@@ -145,12 +145,19 @@ function Proyecto(){
 
                         <Grid item>
                             <DatePicker
+                                value={project? dayjs(project.create_date):null}
                                 label={'Fecha de inicio'}
-                                disablePast onChange={(e)=> console.log(e.$d)} />
+                                disablePast
+                                onChange={(e)=> console.log(e.$d)} />
                         </Grid>
 
                         <Grid item>
-                            <DatePicker label={'Fecha de finalizacion'} disabledPast></DatePicker>
+                            <DatePicker
+                                label={'Fecha de finalizacion'}
+                                disablePast
+                                value={project ? dayjs(project.ending_date):null}
+
+                                 />
                         </Grid>
 
 
