@@ -46,7 +46,10 @@ function ListaMisProyectos(){
                     <Typography variant={'h3'}>Mis Proyectos.</Typography>
                 </Grid >
                 <Grid item xs={4} >
-                    <Button variant={'contained'} endIcon={<Add/>}>Nuevo proyecto</Button>
+                    <Button
+                        onClick={()=> navigate('/misproyectos/proyecto')}
+                        variant={'contained'}
+                        endIcon={<Add/>}>Nuevo proyecto</Button>
                 </Grid>
             </Grid>
 

@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {useParams, useSearchParams} from "react-router-dom";
-
+import dayjs from "dayjs";
 
 
 function Proyecto(){
@@ -123,7 +123,7 @@ function Proyecto(){
                             <TextField
                                 required
                                 multiline
-                                value={project ? project.descripcion : ''}
+                                value={project ? project.descripcion:''}
                                 fullWidth
                                 rows={6}
                                 maxRows={6}
