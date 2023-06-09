@@ -162,7 +162,7 @@ function Proyecto(){
 
 
                         <Grid item xs={6}>
-                            //TODO autocomplete con fetch
+                           
                             <Autocomplete
                                 getOptionLabel={(option) => option.nombre}
                                 options={usuarios ? usuarios : []}
