@@ -162,6 +162,7 @@ function Proyecto(){
 
 
                         <Grid item xs={6}>
+                            //TODO autocomplete con fetch
                             <Autocomplete
                                 getOptionLabel={(option) => option.nombre}
                                 options={usuarios ? usuarios : []}
@@ -169,14 +170,12 @@ function Proyecto(){
                                 isOptionEqualToValue={(option,value) => option.uid === value.uid }
                                 autoComplete={true}
                                 noOptionsText={'Sin resultados'}
-                                filterOptions={(x,y) => {
-                                    const filteredOptions = x.filter(option => option.nombre.search(y.inputValue) != -1 )
+                                filterOptions={(opciones,seleccion) => {
+                                    const filteredOptions = opciones.filter(option => option.nombre.search(seleccion.inputValue) !=== -1 )
                                     return filteredOptions
                                 }
                                 }
-                                onChange={(e,value,r,d) =>{
 
-                                }}
                                 renderInput={(params) => <TextField {...params} label={'Añadir colaboradores'} />}/>
                         </Grid>
 
