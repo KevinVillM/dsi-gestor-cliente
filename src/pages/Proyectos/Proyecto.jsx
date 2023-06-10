@@ -1,4 +1,4 @@
-import react, {useEffect, useMemo, useState} from 'react'
+import react, {useEffect, useState} from 'react'
 import {Autocomplete, Chip, CircularProgress, Grid, Paper, Skeleton, styled, TextField} from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -8,9 +8,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
-
+import projectReducer  from "../../js/projectReducer.js";
 
 function Proyecto(){
+
+    let initialState = {}
 
     const {id} = useParams()
 
@@ -25,8 +27,8 @@ function Proyecto(){
     * */
 
     const [newProject,setNewProject] = useState()
-    const [project,setProject] = useState()
 
+    const [project,setProject] = useState()
     //ELIMINAR LUEGO
     const [usuarios, setUsuarios] = useState()
     const [options,setOptions] = useState()
@@ -46,12 +48,12 @@ function Proyecto(){
                 .then(respuesta => {
                     const rawProject = respuesta.resto._doc
 
-                    const Project = {uid:rawProject._id,
+                    const project = {uid:rawProject._id,
                     ...rawProject,
                     colaboradores: []}
-                    console.log(Project)
+                    console.log('USE EFFECT')
+                    setProject(project)
 
-                    setProject(Project)
                 })
         }
 
@@ -66,6 +68,35 @@ function Proyecto(){
 
     const deleteCollaborator = () =>{
 
+    }
+
+    const handleProjectNameChange = (e) =>{
+        const valor = e.target.value
+        const changeInProject = projectReducer(project,{type:"SET_NOMBRE_PROYECTO",payload:valor})
+        setProject(changeInProject)
+    }
+
+    const handleProjectDescrChange = (e) => {
+        const newDescr = e.target.value
+        const changeInProject = projectReducer(project,{type:"SET_DESCRIPCION",payload:newDescr})
+        setProject(changeInProject)
+    }
+
+    const handleProjectStateChange = (e) =>{
+        const valor =  e.target.value
+        const changeInProject = projectReducer(project,{type:"SET_ESTADO_PROYECTO",payload:valor})
+        setProject(changeInProject)
+        console.log(project)
+    }
+
+    const handleStartDateChange = (value,context) =>{
+        const changeInProject = projectReducer(project,{type:"SET_FECHA_CREACION",payload:value})
+        setProject(changeInProject)
+    }
+
+    const handleEndDateChange = (value,context) =>{
+        const changeInProject = projectReducer(project,{type:"SET_FECHA_FINALIZACION",payload:value})
+        setProject(changeInProject)
     }
 
     const saveProject = () =>{
@@ -110,8 +141,10 @@ function Proyecto(){
                             <TextField
                                 required
                                 value={project ? project.nombre:''}
-                                hiddenLabel={project}
+                                hiddenLabel={project?true:false}
                                 label={'Nombre del proyecto'}
+                                onChange={handleProjectNameChange}
+
                             />
 
                         </Grid>
@@ -123,6 +156,7 @@ function Proyecto(){
                                 fullWidth
                                 rows={6}
                                 maxRows={6}
+                                onChange={handleProjectDescrChange}
                                 label={'Descripción'}/>
                         </Grid>
 
@@ -131,7 +165,9 @@ function Proyecto(){
                                 label={'Estado'}
                                 required
                                 fullWidth
+                                defaultValue={'No iniciado'}
                                 value={project ? project.estado_Proyecto:'No iniciado'}
+                                onChange={handleProjectStateChange}
                                 select>
                                 <MenuItem key={'No iniciado'} value={'No iniciado'}>No iniciado</MenuItem>
                                 <MenuItem key={'En proceso'} value={'En proceso'}>En proceso</MenuItem>
@@ -151,9 +187,9 @@ function Proyecto(){
                             <DatePicker
                                 label={'Fecha de finalizacion'}
                                 disablePast
-                                value={project ? dayjs(project.ending_date):null}
-
-                                 />
+                                onChange={handleEndDateChange}
+                                onClick={handleStartDateChange}
+                                value={project ? dayjs(project.ending_date):null} />
                         </Grid>
 
                         <Grid item xs={6}>
@@ -170,7 +206,14 @@ function Proyecto(){
                                     return filteredOptions
                                 }
                                 }
+                                onChange={ (e,v,r,d) =>{
 
+                                    console.log(e.target)
+                                    console.log(v)
+                                    console.log(r)
+                                    console.log(d)
+
+                                }}
                                 renderInput={(params) => <TextField {...params} label={'Añadir colaboradores'} />}/>
                         </Grid>
 

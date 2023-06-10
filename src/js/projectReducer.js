@@ -3,48 +3,49 @@
 
 //state es el estado previo, tipo la accion realizada y payload el cambio de una propiedad
 //del objeto state (proyecto)
-function projectReducer(state,tipo,payload){
+function projectReducer(state,action){
 
-    switch (tipo) {
-
+    switch (action.type) {
 
         case 'SET_NOMBRE_PROYECTO':
         return {
             ...state,
-            nombre: payload
+            nombre: action.payload
         }
 
         case 'SET_DESCRIPCION':
             return {
                 ...state,
-                descripcion:payload
+                descripcion:action.payload
             }
 
         case 'SET_FECHA_CREACION':
             return {
                 ...state,
-                create_date:payload
+                create_date:action.payload
             }
 
         case 'SET_FECHA_FINALIZACION':
             return {
                 ...state,
-                ending_date:payload
+                ending_date:action.payload
             }
         case 'SET_ESTADO_PROYECTO':
             return {
                 ...state,
-                estado_Proyecto: payload
+                estado_Proyecto: action.payload
             }
         case 'SET_COLABORADORES':
             return {
                 ...state,
-                colaboradores:[...payload]
+                colaboradores:[...action.payload]
             }
 
         default:
-            return state;
+            return action.payload
     }
 
 
 }
+
+export default projectReducer;
