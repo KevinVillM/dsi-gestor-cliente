@@ -28,7 +28,7 @@ function ListaMisProyectos(){
     useEffect(() =>{
         const header = new Headers
         header.set("x-token", sessionStorage.getItem("token"))
-        fetch('http://localhost:8080/api/proyectos',{
+        fetch(`http://localhost:8080/api/proyectos/listadoProyectos/${localStorage.getItem('uid')}`,{
             method:'get',
             headers:header
         }).then(rawResponse => rawResponse.json())
