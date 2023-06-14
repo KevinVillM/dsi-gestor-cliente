@@ -378,7 +378,22 @@ function Proyecto(){
                         <Grid item >
                             <Button
                                 variant={'contained'}
-                                onClick={()=>{console.log(id)}}
+                                onClick={()=>{
+
+                                    let header = new Headers
+                                    header.set("x-token", sessionStorage.getItem("token"))
+                                    header.set('Content-type','application/json')
+
+                                    fetch('http://localhost:8080/api/proyectos',{
+                                        method:'post',
+                                        headers:header,
+                                        body:JSON.stringify(project)
+                                    })
+                                        .then(raw => raw.json())
+                                        .then(respuesta => console.log(respuesta))
+
+
+                                    console.log(JSON.stringify(project))}}
                                 color={'primary'}>Crear</Button>
                         </Grid>
                         <Grid item>
