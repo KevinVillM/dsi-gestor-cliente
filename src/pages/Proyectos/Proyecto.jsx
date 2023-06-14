@@ -4,7 +4,7 @@ import {
     AlertTitle,
     Autocomplete, Badge,
     Chip,
-    CircularProgress,
+    CircularProgress, Dialog, DialogContent,
     Grid,
     Paper,
     Skeleton,
@@ -42,6 +42,7 @@ function Proyecto(){
     const [buttonAddCollaboratorDisabled,setButtonAddCollaboratorDisabled] = useState(true)
     const [isLookingForCollaborator,setIsLookingForCollaborator] = useState(false)
     const [newProject,setNewProject] = useState()
+    const [isModalErrorVisible,setIsModalErrorVisible] = useState(false)
     const [selectedCollaboratorFormat,setSelectedCollaboratorFormat] = useState()
     const [collaborators,setCollaborators] = useState([])
     const [errorSelectedCollaboratorFormat,setErrorSelectedCollaboratorFormat] = useState(false)
@@ -99,6 +100,7 @@ function Proyecto(){
         const valor = e.target.value
 
 
+
         if( (e.target.validity.typeMismatch || valor.search('.com') === -1) && valor !== '' ){
 
             setButtonAddCollaboratorDisabled(true)
@@ -107,6 +109,7 @@ function Proyecto(){
 
             if(valor.length === 0){
             setButtonAddCollaboratorDisabled(true)
+            setErrorSelectedCollaboratorFormat(false)
             }else {
                 setErrorSelectedCollaboratorFormat(false)
                 setButtonAddCollaboratorDisabled(false)
@@ -166,29 +169,40 @@ function Proyecto(){
 
         setIsLookingForCollaborator(true)
 
+
+
         fetch(`http://localhost:8080/api/usuarios/email/${collaboratorEmail}`,{
             method:'get',
             headers:headers
         })
             .then(raw => raw.json())
             .then(respuesta => {
+                console.log(respuesta)
 
-                if(project) {
-                    if (respuesta.usuario) {
-                        setIsLookingForCollaborator(false)
+
+                if(project ) {
+
+                    if (respuesta.usuario ) {
+                        let yaExiste = project.colaboradores.find(colab => colab.uid === respuesta.usuario.uid )
+                        if(yaExiste) {
+                            setIsLookingForCollaborator(false)
+                            return;
+                        }
+
                         let auxProject = {
                             ...project,
                             colaboradores: [...project?.colaboradores, respuesta.usuario]
                         }
 
                         setProject(auxProject)
+                    }else {
+                        setIsModalErrorVisible(true)
+
                     }
+
+                    setIsLookingForCollaborator(false)
                 }
             })
-
-
-
-
     }
 
     const saveProject = () =>{
@@ -372,7 +386,18 @@ function Proyecto(){
                         </Grid>
                     </Grid>
 
+
+                <Dialog sx={{margin:0,padding:0}}
+                    onClose={() => setIsModalErrorVisible(false)}
+                    open={isModalErrorVisible}>
+                    <DialogContent sx={{margin:0,padding:0}}>
+                        <Alert severity={'error'}>No se encontro el colaborador buscado.</Alert>
+
+                    </DialogContent>
+                </Dialog>
                 </Container>
+
+
         }
 
 
