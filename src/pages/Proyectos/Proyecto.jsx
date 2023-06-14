@@ -33,7 +33,7 @@ function Proyecto(){
     }));
     /*
     * TODO
-    * 
+    *
     *
     * Popular los campos en base al proyecto* CASI COMPLETADO
     * Implementar el reducer al cambiar algun estado del proyecto
@@ -73,6 +73,17 @@ function Proyecto(){
                     setProject(project)
                     console.log(project)
                 })
+        }else{
+            setProject({
+                nombre:'',
+                propietario: localStorage.getItem('uid'),
+                create_date: dayjs(new Date()),
+                ending_date: '',
+                estado_Proyecto: 'No iniciado',
+                colaboradores: [],
+                descripcion: ''
+            })
+
         }
 
         /*
@@ -136,7 +147,6 @@ function Proyecto(){
         const valor =  e.target.value
         const changeInProject = projectReducer(project,{type:"SET_ESTADO_PROYECTO",payload:valor})
         setProject(changeInProject)
-        console.log(project)
     }
 
     const handleStartDateChange = (value,context) =>{
@@ -163,15 +173,17 @@ function Proyecto(){
             .then(raw => raw.json())
             .then(respuesta => {
 
-                if(respuesta.usuario){
-                    setIsLookingForCollaborator(false)
-                    let auxProject = {
-                        ...project,
-                        colaboradores:[...project.colaboradores, respuesta.usuario]
+                if(project) {
+                    if (respuesta.usuario) {
+                        setIsLookingForCollaborator(false)
+                        let auxProject = {
+                            ...project,
+                            colaboradores: [...project?.colaboradores, respuesta.usuario]
                         }
 
                         setProject(auxProject)
                     }
+                }
             })
 
 
@@ -322,7 +334,7 @@ function Proyecto(){
                                 m: 0,
                             }} component={'ul'}
                             >
-                                { project.colaboradores && !isLookingForCollaborator?
+                                { project?.colaboradores ?
                                     project.colaboradores.map(colaborador => {
                                         console.log(colaborador)
                                         return <ListItem>
@@ -331,11 +343,15 @@ function Proyecto(){
                                                 onDelete={() =>{deleteCollaborator(colaborador.uid)}} ></Chip>
                                         </ListItem>
                                     })
-                                    : <CircularProgress/>
+                                    : <></>
+                                }
+                                {
+                                    isLookingForCollaborator ? <CircularProgress/> : <></>
                                 }
 
+
                                 {
-                                    project.colaboradores ? <></> : <TextField
+                                    project?.colaboradores && !isLookingForCollaborator? <></> : <TextField
                                         disabled
                                         label={'Sin colaboradores'}
                                         fullWidth />
