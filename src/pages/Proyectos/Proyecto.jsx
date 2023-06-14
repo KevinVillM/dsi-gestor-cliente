@@ -1,5 +1,16 @@
 import react, {useEffect, useState} from 'react'
-import {Autocomplete, Chip, CircularProgress, Grid, Paper, Skeleton, styled, TextField} from "@mui/material";
+import {
+    Alert,
+    AlertTitle,
+    Autocomplete, Badge,
+    Chip,
+    CircularProgress,
+    Grid,
+    Paper,
+    Skeleton,
+    styled,
+    TextField
+} from "@mui/material";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
@@ -9,6 +20,7 @@ import Button from "@mui/material/Button";
 import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import projectReducer  from "../../js/projectReducer.js";
+import {Circle} from "@mui/icons-material";
 
 function Proyecto(){
 
@@ -21,13 +33,19 @@ function Proyecto(){
     }));
     /*
     * TODO
+    * 
     *
-    * Popular los campos en base al proyecto
+    * Popular los campos en base al proyecto* CASI COMPLETADO
     * Implementar el reducer al cambiar algun estado del proyecto
     * */
 
+    const [buttonAddCollaboratorDisabled,setButtonAddCollaboratorDisabled] = useState(true)
+    const [isLookingForCollaborator,setIsLookingForCollaborator] = useState(false)
     const [newProject,setNewProject] = useState()
-
+    const [selectedCollaboratorFormat,setSelectedCollaboratorFormat] = useState()
+    const [collaborators,setCollaborators] = useState([])
+    const [errorSelectedCollaboratorFormat,setErrorSelectedCollaboratorFormat] = useState(false)
+    const [collaboratorEmail,setCollaboratorEmail] = useState()
     const [project,setProject] = useState()
     //ELIMINAR LUEGO
     const [usuarios, setUsuarios] = useState()
@@ -50,23 +68,55 @@ function Proyecto(){
 
                     const project = {uid:rawProject._id,
                     ...rawProject,
-                    colaboradores: []}
-                    console.log('USE EFFECT')
+                    colaboradores: rawProject.colaboradores
+                    }
                     setProject(project)
-
+                    console.log(project)
                 })
         }
 
+        /*
        fetch('http://localhost:8080/api/usuarios',{
            method:'get',
            headers:header
-       }).then(rawResponse => rawResponse.json()).then(response =>{setUsuarios(response.usuarios)
-       console.log(response.usuarios)})
-
+       }).then(rawResponse => rawResponse.json()).then(response =>{setCollaborators(response.usuarios)})
+        */
 
     },[])
 
-    const deleteCollaborator = () =>{
+    const handleCollaboratorInputChange = (e) =>{
+        const valor = e.target.value
+
+
+        if( (e.target.validity.typeMismatch || valor.search('.com') === -1) && valor !== '' ){
+
+            setButtonAddCollaboratorDisabled(true)
+            setErrorSelectedCollaboratorFormat(true)
+        }else{
+
+            if(valor.length === 0){
+            setButtonAddCollaboratorDisabled(true)
+            }else {
+                setErrorSelectedCollaboratorFormat(false)
+                setButtonAddCollaboratorDisabled(false)
+                setCollaboratorEmail(valor)
+            }
+
+
+        }
+
+
+
+
+    }
+    const deleteCollaborator = (uid) =>{
+
+        let auxListCollaborators = project.colaboradores.filter( colaborador => colaborador.uid !== uid)
+
+        setProject({...project,colaboradores:auxListCollaborators})
+
+        console.log(auxListCollaborators)
+
 
     }
 
@@ -97,6 +147,36 @@ function Proyecto(){
     const handleEndDateChange = (value,context) =>{
         const changeInProject = projectReducer(project,{type:"SET_FECHA_FINALIZACION",payload:value})
         setProject(changeInProject)
+    }
+
+    const searchCollaborator = () =>{
+
+        let headers = new Headers
+        headers.append("x-token", sessionStorage.getItem("token"));
+
+        setIsLookingForCollaborator(true)
+
+        fetch(`http://localhost:8080/api/usuarios/email/${collaboratorEmail}`,{
+            method:'get',
+            headers:headers
+        })
+            .then(raw => raw.json())
+            .then(respuesta => {
+
+                if(respuesta.usuario){
+                    setIsLookingForCollaborator(false)
+                    let auxProject = {
+                        ...project,
+                        colaboradores:[...project.colaboradores, respuesta.usuario]
+                        }
+
+                        setProject(auxProject)
+                    }
+            })
+
+
+
+
     }
 
     const saveProject = () =>{
@@ -134,8 +214,8 @@ function Proyecto(){
                 </>
 
             : <Container>
-                    <Typography variant={'h3'} className={'mb-4'}>Crear proyecto.</Typography>
-                    <Grid container alignItems={'center'} spacing={4} className={'mb-4'}>
+                <Typography variant={'h3'} className={'mb-4'}>Crear proyecto.</Typography>
+                    <Grid container alignItems={'center'} spacing={4} className={'mb-4'} >
                         <Grid item xs={12} >
 
                             <TextField
@@ -191,30 +271,45 @@ function Proyecto(){
                                 onClick={handleStartDateChange}
                                 value={project ? dayjs(project.ending_date):null} />
                         </Grid>
+                    </Grid>
 
-                        <Grid item xs={6}>
-                           
-                            <Autocomplete
-                                getOptionLabel={(option) => option.nombre}
-                                options={usuarios ? usuarios : []}
-                                includeInputInList
-                                isOptionEqualToValue={(option,value) => option.uid === value.uid }
-                                autoComplete={true}
-                                noOptionsText={'Sin resultados'}
-                                filterOptions={(opciones,seleccion) => {
-                                    const filteredOptions = opciones.filter(option => option.nombre.search(seleccion.inputValue) !== -1 )
-                                    return filteredOptions
-                                }
-                                }
-                                onChange={ (e,v,r,d) =>{
 
-                                    console.log(e.target)
-                                    console.log(v)
-                                    console.log(r)
-                                    console.log(d)
 
-                                }}
-                                renderInput={(params) => <TextField {...params} label={'Añadir colaboradores'} />}/>
+
+
+
+
+
+                    <Grid container spacing={4} alignItems={'center'} className={'mb-4'}>
+
+                        <Grid item>
+                            <TextField
+                                onChange={handleCollaboratorInputChange}
+                                error={errorSelectedCollaboratorFormat}
+                                type={'email'}
+                                label={'Añadir colaborador'}/>
+
+
+                        </Grid>
+
+                        <Grid item>
+                            <Button
+                                variant={'contained'}
+                                color={'primary'}
+                                onClick={searchCollaborator}
+                                disabled={buttonAddCollaboratorDisabled} >Buscar colaborador</Button>
+                        </Grid>
+
+                        <Grid item>
+                            {
+                                errorSelectedCollaboratorFormat
+                                    ?
+                                    <Alert severity={'error'}>
+                                        <AlertTitle>Ingrese un correo valido.</AlertTitle>
+                                    </Alert>
+                                    :<></>
+                            }
+
                         </Grid>
 
                         <Grid item xs={12}>
@@ -227,23 +322,29 @@ function Proyecto(){
                                 m: 0,
                             }} component={'ul'}
                             >
-                                { usuarios ?
-                                    usuarios.map(valor => {
+                                { project.colaboradores && !isLookingForCollaborator?
+                                    project.colaboradores.map(colaborador => {
+                                        console.log(colaborador)
                                         return <ListItem>
-                                            <Chip label={valor.nombre} onDelete={deleteCollaborator}></Chip>
+                                            <Chip
+                                                label={colaborador.nombre}
+                                                onDelete={() =>{deleteCollaborator(colaborador.uid)}} ></Chip>
                                         </ListItem>
                                     })
-                                    :<TextField
+                                    : <CircularProgress/>
+                                }
+
+                                {
+                                    project.colaboradores ? <></> : <TextField
                                         disabled
                                         label={'Sin colaboradores'}
                                         fullWidth />
                                 }
                             </Paper>
                         </Grid>
-
                     </Grid>
 
-                    <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
+                    <Grid container spacing={2} alignItems={'center'} justifyContent={'center'} >
                         <Grid item >
                             <Button
                                 variant={'contained'}
