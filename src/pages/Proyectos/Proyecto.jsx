@@ -4,7 +4,7 @@ import {
     AlertTitle,
     Autocomplete, Badge,
     Chip,
-    CircularProgress, Dialog, DialogContent,
+    CircularProgress, Dialog, DialogContent, DialogTitle,
     Grid,
     Paper,
     Skeleton,
@@ -21,6 +21,7 @@ import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import projectReducer  from "../../js/projectReducer.js";
 import {Circle} from "@mui/icons-material";
+
 
 function Proyecto(){
 
@@ -48,6 +49,7 @@ function Proyecto(){
     const [errorSelectedCollaboratorFormat,setErrorSelectedCollaboratorFormat] = useState(false)
     const [collaboratorEmail,setCollaboratorEmail] = useState()
     const [project,setProject] = useState()
+    const [wasProjectSuccessfulyCreated,setWasProjectSuccessfullyCreated] = useState(false)
     //ELIMINAR LUEGO
     const [usuarios, setUsuarios] = useState()
     const [options,setOptions] = useState()
@@ -205,19 +207,9 @@ function Proyecto(){
             })
     }
 
-    const saveProject = () =>{
-
-        const headers = new Headers
-        headers.append("x-token", sessionStorage.getItem("token"));
-        headers.append("Content-Type", "application/json");
-
-        fetch('url',{
-            method:'post',
-            headers:headers,
-            body:{
-                ...project
-            }
-        })
+    const handleModalProjectCreated = () =>{
+        setWasProjectSuccessfullyCreated(false)
+        history.back()
     }
 
     let loading = (id && !project)
@@ -401,7 +393,7 @@ function Proyecto(){
                                                 body:JSON.stringify(processedProject)
                                             })
                                                 .then(raw => raw.json())
-                                                .then(respuesta => console.log(respuesta))
+                                                .then(respuesta => setWasProjectSuccessfullyCreated(true))
                                         }else {
                                             fetch(`http://localhost:8080/api/proyectos/${project.uid}`,{
                                                 method:'put',
@@ -437,6 +429,26 @@ function Proyecto(){
                     open={isModalErrorVisible}>
                     <DialogContent sx={{margin:0,padding:0}}>
                         <Alert severity={'error'}>No se encontro el colaborador buscado.</Alert>
+
+                    </DialogContent>
+                </Dialog>
+
+
+                <Dialog  open={wasProjectSuccessfulyCreated} onClose={handleModalProjectCreated}>
+                    <DialogTitle>Exito.</DialogTitle>
+                    <DialogContent>
+                        <Grid container>
+                            <Grid item xs={12}>
+                                <Typography variant={'h4'}>El proyecto se creo exitosamente!</Typography>
+                            </Grid>
+                            <Grid item>
+                                <Button variant={'contained'} onClick={handleModalProjectCreated}>
+                                    Aceptar
+                                </Button>
+                            </Grid>
+                        </Grid>
+
+
 
                     </DialogContent>
                 </Dialog>
