@@ -1,6 +1,17 @@
 import react, {useEffect, useState} from 'react'
 import Typography from "@mui/material/Typography";
-import {Grid, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {
+    Dialog, DialogContent, DialogTitle,
+    Grid,
+    Skeleton,
+    Stack,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow
+} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Add, Edit} from "@mui/icons-material";
@@ -15,13 +26,40 @@ function ListaMisProyectos(){
 
     let [listaProyectos,setListaProyectos] = useState()
     let [hasProjects,setHasProjects] = useState(true)
+
+    let [isDeleteDialogOpen,setIsDeleteDialogOpen] = useState(false)
+    let [idProjectToBeDeleted,setIdProjectToBeDeleted] = useState()
     let navigate = useNavigate()
     //TO-DO implementar logica para borrar en la bd
-    const deleteProject = (uid)=>{
+    const updateProjectList = (uid)=>{
 
-        const newListProjects = listaProyectos.filter(proyecto => proyecto.uid !== uid)
 
-        setListaProyectos(newListProjects)
+
+        setIdProjectToBeDeleted(uid)
+        setIsDeleteDialogOpen(true)
+
+
+    }
+
+    const deleteProject = () =>{
+        let header = new Headers
+
+        header.set("x-token", sessionStorage.getItem("token"))
+
+        fetch(`http://localhost:8080/api/proyectos/${idProjectToBeDeleted}`,{
+            method:'delete',
+            headers:header
+        })
+            .then(raw => raw.json())
+            .then(respuesta =>
+            {
+                const newListProjects = listaProyectos.filter(proyecto => proyecto.uid !== idProjectToBeDeleted)
+                console.log(respuesta)
+                setListaProyectos(newListProjects)
+                setIsDeleteDialogOpen(false)
+                alert('Se elimino el proyecto!')
+            })
+
 
     }
 
@@ -100,7 +138,7 @@ function ListaMisProyectos(){
                                                     </IconButton>
                                                 </Tooltip>
                                                 <Tooltip title={'Borrar proyecto'}>
-                                                    <IconButton color={'error'} onClick={() => {deleteProject(proyecto.uid)}}>
+                                                    <IconButton color={'error'} onClick={() => {updateProjectList(proyecto.uid)}}>
                                                         <DeleteIcon/>
                                                     </IconButton>
                                                 </Tooltip>
@@ -128,6 +166,29 @@ function ListaMisProyectos(){
 
 
             }
+
+            <Dialog open={isDeleteDialogOpen}>
+                <DialogTitle>Eliminar proyecto.</DialogTitle>
+                <DialogContent>
+                    <Grid container xs={12} spacing={2}>
+                        <Grid item>
+                            <Typography variant={'h4'}>¿Realmente desea eliminar este proyecto?</Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                variant={'contained'}
+                                onClick={deleteProject}
+                                color={'error'}>Eliminar</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                variant={'contained'}
+                                onClick={() => setIsDeleteDialogOpen(false)}
+                                color={'primary'}>Cancelar</Button>
+                        </Grid>
+                    </Grid>
+                </DialogContent>
+            </Dialog>
 
         </div>
     </>;
