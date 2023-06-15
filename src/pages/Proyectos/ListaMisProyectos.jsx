@@ -14,7 +14,7 @@ import {Link, useNavigate} from "react-router-dom";
 function ListaMisProyectos(){
 
     let [listaProyectos,setListaProyectos] = useState()
-
+    let [hasProjects,setHasProjects] = useState(true)
     let navigate = useNavigate()
     //TO-DO implementar logica para borrar en la bd
     const deleteProject = (uid)=>{
@@ -32,8 +32,16 @@ function ListaMisProyectos(){
             method:'get',
             headers:header
         }).then(rawResponse => rawResponse.json())
-            .then(response => {setListaProyectos(response.proyectos)
-            console.log(response.proyectos)})
+            .then(response => {
+                if(response.proyectos){
+
+                    setListaProyectos(response.proyectos)
+                }else{
+                    setHasProjects(false)
+                }
+
+
+            })
 
     },[])
 
@@ -69,6 +77,8 @@ function ListaMisProyectos(){
                             </TableHead>
                             <TableBody>
                                 {
+                                    hasProjects && listaProyectos.length >= 0 ?
+
                                     listaProyectos.map(proyecto => {
 
                                         return <TableRow key={proyecto.uid}>
@@ -98,7 +108,12 @@ function ListaMisProyectos(){
                                             </TableCell>
                                         </TableRow>
                                     })
+                                    :   <Grid container>
+                                            <Grid container>
+                                                <Typography>No cuenta con proyectos. Cree uno nuevo dando click en el boton 'Crear proyecto'.</Typography>
+                                            </Grid>
 
+                                        </Grid>
                                 }
                             </TableBody>
                         </Table>
@@ -110,6 +125,8 @@ function ListaMisProyectos(){
 
                     return <h1 className={'mb-1'}><Skeleton/></h1>
                 })
+
+
             }
 
         </div>

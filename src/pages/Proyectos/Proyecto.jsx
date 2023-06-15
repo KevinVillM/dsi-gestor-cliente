@@ -214,7 +214,9 @@ function Proyecto(){
         fetch('url',{
             method:'post',
             headers:headers,
-            body:newProject
+            body:{
+                ...project
+            }
         })
     }
 
@@ -376,25 +378,53 @@ function Proyecto(){
 
                     <Grid container spacing={2} alignItems={'center'} justifyContent={'center'} >
                         <Grid item >
+
                             <Button
-                                variant={'contained'}
-                                onClick={()=>{
+                                    variant={'contained'}
+                                    color={ id ? 'warning' : 'primary'}
+                                    onClick={()=>{
 
-                                    let header = new Headers
-                                    header.set("x-token", sessionStorage.getItem("token"))
-                                    header.set('Content-type','application/json')
+                                        let collaboratorsUidOnly = project.colaboradores.map(colab => colab.uid)
+                                        console.log(collaboratorsUidOnly)
+                                        let processedProject = {...project,colaboradores:collaboratorsUidOnly}
 
-                                    fetch('http://localhost:8080/api/proyectos',{
-                                        method:'post',
-                                        headers:header,
-                                        body:JSON.stringify(project)
-                                    })
-                                        .then(raw => raw.json())
-                                        .then(respuesta => console.log(respuesta))
+                                        let header = new Headers
+                                        header.set("x-token", sessionStorage.getItem("token"))
+                                        header.set('Content-type','application/json')
 
 
-                                    console.log(JSON.stringify(project))}}
-                                color={'primary'}>Crear</Button>
+
+                                        if(!id){
+                                            fetch('http://localhost:8080/api/proyectos',{
+                                                method:'post',
+                                                headers:header,
+                                                body:JSON.stringify(processedProject)
+                                            })
+                                                .then(raw => raw.json())
+                                                .then(respuesta => console.log(respuesta))
+                                        }else {
+                                            fetch(`http://localhost:8080/api/proyectos/${project.uid}`,{
+                                                method:'put',
+                                                headers:header,
+                                                body:JSON.stringify(processedProject)
+                                            })
+                                                .then(raw => raw.json())
+                                                .then(respuesta => console.log(respuesta))
+                                        }
+
+
+
+
+                                        console.log(JSON.stringify(project))}}
+                                    color={'primary'}>
+
+                                { id ? 'Modificar' : 'Crear'}
+                            </Button>
+
+
+
+
+
                         </Grid>
                         <Grid item>
                             <Button variant={'contained'} color={'error'}>Cancelar</Button>
