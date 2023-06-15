@@ -13,31 +13,28 @@ import Proyecto from "./pages/Proyectos/Proyecto.jsx";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/es-mx.js'
+import Tareas from "./pages/Tareas/ListaMisTareas.jsx";
+import EditarTarea from "./pages/Tareas/Tarea.jsx";
 export const App = () => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'es-mx'}>
-      <BrowserRouter>
-        <Routes>
-            <Route path ={"/login"} element={<Login/>}></Route>
-            <Route path={"/registro"} element={<Register/>}/>
-            <Route element={<RequireAuth isLogged={localStorage.getItem("isLogged") === "true"}/> } >
-                <Route path={"/dashboard"} element={<Dashboard><Inicio/></Dashboard>}></Route>
-                <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>
-
-                <Route path={"/tareas"} element={<Dashboard><GestionTareas/></Dashboard>}></Route>
-                <Route path={"/perfil"} element={<Dashboard><Perfil/></Dashboard>}/>
-                <Route path={'/misproyectos'} element={<Dashboard><ListaMisProyectos/></Dashboard>}/>
-                <Route path={'/misproyectos/proyecto'} element={<Dashboard><Proyecto/></Dashboard>}/>
-                <Route path={'/misproyectos/proyecto/:id/editar'} element={<Dashboard><Proyecto/></Dashboard>} />
-
-
-
-
-            </Route>
-
-
-        </Routes>
-      </BrowserRouter>
+          <BrowserRouter>
+            <Routes>
+                <Route path ={"/login"} element={<Login/>}></Route>
+                <Route path={"/registro"} element={<Register/>}/>
+                <Route element={<RequireAuth isLogged={localStorage.getItem("isLogged") === "true"}/> } >
+                    <Route path={"/dashboard"} element={<Dashboard><Inicio/></Dashboard>}></Route>
+                    <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>
+                    <Route path={"/mistareas"} element={<Dashboard><Tareas/></Dashboard>}></Route>
+                    <Route path={"/mistareas/tarea"} element={<Dashboard><EditarTarea/></Dashboard>}/>
+                    <Route path={"/tareas/:id/editar"} element={<Dashboard><EditarTarea/></Dashboard>}/>
+                    <Route path={"/perfil"} element={<Dashboard><Perfil/></Dashboard>}/>
+                    <Route path={'/misproyectos'} element={<Dashboard><ListaMisProyectos/></Dashboard>}/>
+                    <Route path={'/misproyectos/proyecto'} element={<Dashboard><Proyecto/></Dashboard>}/>
+                    <Route path={'/misproyectos/proyecto/:id/editar'} element={<Dashboard><Proyecto/></Dashboard>} />
+                </Route>
+            </Routes>
+          </BrowserRouter>
         </LocalizationProvider>
     );
 };

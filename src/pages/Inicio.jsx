@@ -21,7 +21,7 @@ function Inicio(){
                 </Grid>
                 <Grid item xs={6}>
                     <OpcionCard titulo={"Tareas"} desc={"Descripción"} handler={()=>{
-                        navigate('/tareas')
+                        navigate('/mistareas')
                     }}/>
                 </Grid>
                 <Grid item xs={6}>
