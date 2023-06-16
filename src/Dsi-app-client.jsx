@@ -27,7 +27,7 @@ export const App = () => {
                     <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>
                     <Route path={"/mistareas"} element={<Dashboard><Tareas/></Dashboard>}></Route>
                     <Route path={"/mistareas/tarea"} element={<Dashboard><EditarTarea/></Dashboard>}/>
-                    <Route path={"/tareas/:id/editar"} element={<Dashboard><EditarTarea/></Dashboard>}/>
+                    <Route path={"/mistareas/tarea/:id/editar"} element={<Dashboard><EditarTarea/></Dashboard>}/>
                     <Route path={"/perfil"} element={<Dashboard><Perfil/></Dashboard>}/>
                     <Route path={'/misproyectos'} element={<Dashboard><ListaMisProyectos/></Dashboard>}/>
                     <Route path={'/misproyectos/proyecto'} element={<Dashboard><Proyecto/></Dashboard>}/>

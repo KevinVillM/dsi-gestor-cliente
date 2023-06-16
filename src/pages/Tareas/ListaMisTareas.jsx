@@ -12,7 +12,7 @@ import {useNavigate} from "react-router-dom";
 function Tareas(){
 
     let [listaTareas,setListaTareas] = useState()
-
+    let [hasTareas,setHasTareas] = useState(true)
     let navigate = useNavigate()
 
 
@@ -32,7 +32,13 @@ function Tareas(){
             method:'get',
             headers:header
         }).then(rawResponse => rawResponse.json())
-            .then(response => {setListaTareas(response.tareas)
+            .then(response => {
+                if(response.tareas){
+                    setListaTareas(response.tareas)
+                }else{ 
+                    setHasTareas(false)
+                }
+
             console.log(response.tareas)})
     },[])
 
@@ -61,7 +67,7 @@ function Tareas(){
                                     <TableCell>Nombre</TableCell>
                                     <TableCell>Descripción</TableCell>
                                     <TableCell className={'sm'}>Proyecto.</TableCell>
-                                    <TableCell className={'sm'}>Colaborador</TableCell>
+                               
                                     <TableCell align={'center'}>Acciones.</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -72,7 +78,7 @@ function Tareas(){
                                             <TableCell>{tarea.nombre}</TableCell>
                                             <TableCell>{tarea.descripcion}</TableCell>
                                             <TableCell>{tarea?.proyecto.nombre}</TableCell>
-                                            <TableCell>{tarea?.asignados[0].nombre}</TableCell>
+                                            
                                             <TableCell align={'center'}>
                                                 <Tooltip title={'Editar tarea'}>
                                                     <IconButton color={'primary'} onClick={() => {
@@ -114,7 +120,7 @@ function Tareas(){
                                     <TableCell>Nombre</TableCell>
                                     <TableCell>Descripción</TableCell>
                                     <TableCell className={'sm'}>Proyecto.</TableCell>
-                                    <TableCell className={'sm'}>Colaborador</TableCell>                                    
+                                                                     
                                     <TableCell align={'center'}>Acciones.</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -126,11 +132,11 @@ function Tareas(){
                                             <TableCell>{tarea.nombre}</TableCell>
                                             <TableCell>{tarea.descripcion}</TableCell>
                                             <TableCell>{tarea?.proyecto.nombre}</TableCell>
-                                            <TableCell>{tarea?.asignados[0].nombre}</TableCell>
+                                            
                                             <TableCell align={'center'}>
                                                 <Tooltip title={'Editar tarea'}>
                                                     <IconButton color={'primary'} onClick={() => {
-                                                        navigate(`/tareas/${tarea.uid}/editar`)
+                                                        navigate(`/mistareas/tarea/${tarea.uid}/editar`)
                                                     }}>
                                                         <Edit/>
 
@@ -168,7 +174,7 @@ function Tareas(){
                                     <TableCell>Nombre</TableCell>
                                     <TableCell>Descripción</TableCell>
                                     <TableCell className={'sm'}>Proyecto.</TableCell>
-                                    <TableCell className={'sm'}>Colaborador</TableCell>
+                                   
                                     <TableCell align={'center'}>Acciones.</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -180,11 +186,11 @@ function Tareas(){
                                             <TableCell>{tarea.nombre}</TableCell>
                                             <TableCell>{tarea.descripcion}</TableCell>
                                             <TableCell>{tarea?.proyecto.nombre}</TableCell>
-                                            <TableCell>{tarea?.asignados[0].nombre}</TableCell>
+                                            
                                             <TableCell align={'center'}>     
                                                 <Tooltip title={'Editar tarea'}>
                                                     <IconButton color={'primary'} onClick={() => {
-                                                        navigate(`/tareas/${tarea.uid}/editar`)
+                                                        navigate(`/mistareas/tarea/${tarea.uid}/editar`)
                                                     }}>
                                                         <Edit/>
                                                     </IconButton>
