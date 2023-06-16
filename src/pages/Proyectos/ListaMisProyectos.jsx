@@ -125,7 +125,9 @@ function ListaMisProyectos(){
                                             <TableCell>{proyecto.estado_Proyecto}</TableCell>
                                             <TableCell align={'center'}>
                                                <Tooltip title={'Agregar tarea'}>
-                                                   <IconButton color={'success'}>
+                                                   <IconButton color={'success'} onClick={() => {
+                                                        navigate(`/mistareas/tarea`)
+                                                    }}>
                                                        <Add/>
                                                    </IconButton>
                                                </Tooltip>
