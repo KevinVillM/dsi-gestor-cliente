@@ -242,7 +242,7 @@ function Registro(){
                      <Typography>La cuenta se creo exitosamente!</Typography>
                  </Grid>
                  <Grid item>
-                     <Button onClick={() => navigate('/dashboard')}
+                     <Button onClick={() => navigate('/login')}
                          variant={'contained'}>Aceptar</Button>
                  </Grid>
              </Grid>
