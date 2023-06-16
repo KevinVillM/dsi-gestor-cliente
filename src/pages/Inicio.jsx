@@ -15,20 +15,20 @@ function Inicio(){
         <>
             <Grid container spacing={1}>
                 <Grid item xs={6}>
-                    <OpcionCard titulo={"Mis proyectos"} desc={"Descripción"} handler={()=>{
+                    <OpcionCard titulo={"Mis proyectos"} desc={"En esta interfaz se realiza la creación, modificación y eliminación de proyectos, así como también la asignación de las tareas correspondientes a cada proyecto."} handler={()=>{
                        navigate('/misproyectos')
                     }}/>
                 </Grid>
                 <Grid item xs={6}>
-                    <OpcionCard titulo={"Tareas"} desc={"Descripción"} handler={()=>{
+                    <OpcionCard titulo={"Tareas"} desc={"En esta interfaz se realiza la creación, modificación y eliminación de una tarea, además de realizar un filtrado de tareas entre las que no han iniciado, las que están en proceso y las que ya han sido finalizadas."} handler={()=>{
                         navigate('/mistareas')
                     }}/>
                 </Grid>
                 <Grid item xs={6}>
-                    <OpcionCard titulo={"Recursos"} desc={"Descripción"}/>
+                    <OpcionCard titulo={"Recursos"} desc={"En esta interfaz se realiza la creación, modificación y eliminación de un recurso de tipo material, además de asignar los recursos a una tarea en específico."}/>
                 </Grid>
                 <Grid item xs={6}>
-                    <OpcionCard titulo={"Informes"} desc={"Descripción"}/>
+                    <OpcionCard titulo={"Informes"} desc={"En esta interfaz se generarán los informes necesarios sobre los proyectos, gráficos, porcentajes de avance de tareas, etc."}/>
                 </Grid>
 
             </Grid>
