@@ -1,10 +1,13 @@
 import react from 'react'
 import {useState} from 'react'
 import {TextField} from "@mui/material";
+import Button from "@mui/material/Button";
+import {useNavigate} from "react-router-dom";
 
 
 
   function autenticar(email,password){
+
 
     let body = {email:email,password:password}
     let r ;
@@ -25,6 +28,7 @@ import {TextField} from "@mui/material";
 
 }
 export default function Login(){
+      const navigate = useNavigate()
     let [errorEmail,setErrorEmail] = useState(false)
     let [errorPassword,setErrorPassword] = useState(false)
     let [email,setEmail] = useState("")
@@ -88,8 +92,7 @@ export default function Login(){
                                 </div>
 
                                 <div className="pt-1 mb-4">
-                                    <button
-                                        className={"btn"}
+                                    <Button
                                         onClick={(e)=>{
                                             e.preventDefault()
                                             autenticar(email,password)
@@ -111,10 +114,12 @@ export default function Login(){
 
                                             })
                                         }}
-                                        style={{
-                                            backgroundColor:"#214A87",
-                                            color:"#FFF"
-                                    }}>Ingresar</button>
+                                        variant={'contained'}
+                                        >Ingresar</Button>
+
+                                    <Button onClick={() => navigate('/registro') }>
+                                        Crear cuenta.
+                                    </Button>
                                 </div>
 
                             </form>

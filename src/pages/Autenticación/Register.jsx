@@ -227,7 +227,7 @@ function Registro(){
                 <Button
 
                     disable={errorPasswordTooShort | errorEmailFormat | errorPassConfirmTooShort}
-                    variant={'contained'}>Iniciar sesión.</Button>
+                    variant={'contained'} onClick={() => navigate('/login')}>Iniciar sesión.</Button>
             </div>
 
 
