@@ -408,7 +408,7 @@ function Proyecto(){
 
 
                                         console.log(JSON.stringify(project))}}
-                                    color={'primary'}>
+                                    >
 
                                 { id ? 'Modificar' : 'Crear'}
                             </Button>
@@ -419,7 +419,10 @@ function Proyecto(){
 
                         </Grid>
                         <Grid item>
-                            <Button variant={'contained'} color={'error'}>Cancelar</Button>
+                            <Button
+                                variant={'contained'}
+                                onClick={()=> history.back()}
+                                color={'error'}>Cancelar</Button>
                         </Grid>
                     </Grid>
 

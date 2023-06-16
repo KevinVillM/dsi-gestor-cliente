@@ -1,11 +1,15 @@
 import react, {useState} from 'react'
-import {TextField} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle, Grid, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import {Image} from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import {useNavigate} from "react-router-dom";
 
 
 function Registro(){
+
+    const navigate = useNavigate()
 
     let [nombre,setNombre] = useState();
     let [password,setPassword] = useState();
@@ -24,6 +28,7 @@ function Registro(){
     let [progressBarActive,setProgressBarActive] = useState(false)
     let [disablePassConfirm,setDisablePassConfirm] = useState(true)
 
+    const [wasAcountSuccessfullyCreated,setWasAccountSuccessfullyCreated] = useState(false)
     const changeNombre  = e => {
         setNombre(e.target.value)
     }
@@ -99,7 +104,7 @@ function Registro(){
             password:password,
             email:email,
             img:'',
-            rol:'',
+            rol:'ADMIN_ROL',
             estado:true,
             google:false
         }
@@ -107,17 +112,24 @@ function Registro(){
         headers.set('Content-Type','application/json')
 
         const init = {
-            method:'Post',
+            method:'post',
             headers:headers,
             body:JSON.stringify(usuario)
         }
 
         fetch('http://localhost:8080/api/usuarios',init)
-            .then(response => {
-                if(response.ok){
-                // TO-DO*** Mostrar un cuadro de dialogo indicando que se creo el usuario y luego redirigir al dashboard
-                }
+            .then(raw => raw.json())
+            .then(respuesta => {
+                console.log(respuesta)
+                setWasAccountSuccessfullyCreated(true)
             })
+
+    }
+
+    const handleNameChange = e => {
+        const valor = e.target.value
+
+        setNombre(valor)
 
     }
 
@@ -129,7 +141,8 @@ function Registro(){
 
             <div className={'col-sm-6 mb-4'}>
                 <label className={'mb-4'}>Nombre completo</label>
-                <TextField className={'form-control form-control-sm mb-4'}/>
+                <TextField className={'form-control form-control-sm mb-4'}
+                            onChange={handleNameChange}/>
                 <label className={'mb-4'}>Correo electronico</label>
                 <TextField className={'form-control form-control-sm'}
                            type={'email'}
@@ -143,6 +156,7 @@ function Registro(){
 
                 <div className={'align-self-center'}>
                     {
+                        /*
                         fotoPerfil ?
                             <>
                                 <div style={{display:"block"}}>
@@ -161,7 +175,7 @@ function Registro(){
                                 <input  type={'file'} accept={'.jpg,.png,jpgeg'} onChange={profilePictureSelection}/>
                             </>
 
-
+                    */
                     }
 
                 </div>
@@ -201,16 +215,39 @@ function Registro(){
         <div className={'row text-center'}>
 
             <div className={'col'}>
-                <a type={'button'} className={'btn btn-primary'}>Crear cuenta.</a>
+                <Button
+                    onClick={createAccount}
+                    variant={'contained'}
+                    color={'success'}>Crear cuenta.</Button>
             </div>
 
             <div className={'col'}>
-                <a type={'button'} onClick={imprimirValores} className={'btn'} style={{backgroundColor:'#2F58CD',color:'white'}}>Iniciar sesión.</a>
+
+
+                <Button
+
+                    disable={errorPasswordTooShort | errorEmailFormat | errorPassConfirmTooShort}
+                    variant={'contained'}>Iniciar sesión.</Button>
             </div>
 
 
         </div>
     </div>
+
+     <Dialog open={wasAcountSuccessfullyCreated}>
+         <DialogTitle>Exito.</DialogTitle>
+         <DialogContent>
+             <Grid container spacing={2}>
+                 <Grid item xs={12}>
+                     <Typography>La cuenta se creo exitosamente!</Typography>
+                 </Grid>
+                 <Grid item>
+                     <Button onClick={() => navigate('/dashboard')}
+                         variant={'contained'}>Aceptar</Button>
+                 </Grid>
+             </Grid>
+         </DialogContent>
+     </Dialog>
 
     </>
 
