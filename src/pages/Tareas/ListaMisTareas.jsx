@@ -66,8 +66,7 @@ function Tareas(){
                                 <TableRow>
                                     <TableCell>Nombre</TableCell>
                                     <TableCell>Descripción</TableCell>
-                                    <TableCell className={'sm'}>Proyecto.</TableCell>
-                               
+                                    <TableCell >Proyecto.</TableCell>                               
                                     <TableCell align={'center'}>Acciones.</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -119,7 +118,7 @@ function Tareas(){
                                 <TableRow>
                                     <TableCell>Nombre</TableCell>
                                     <TableCell>Descripción</TableCell>
-                                    <TableCell className={'sm'}>Proyecto.</TableCell>
+                                    <TableCell>Proyecto.</TableCell>
                                                                      
                                     <TableCell align={'center'}>Acciones.</TableCell>
                                 </TableRow>
@@ -173,7 +172,7 @@ function Tareas(){
                                 <TableRow>
                                     <TableCell>Nombre</TableCell>
                                     <TableCell>Descripción</TableCell>
-                                    <TableCell className={'sm'}>Proyecto.</TableCell>
+                                    <TableCell>Proyecto.</TableCell>
                                    
                                     <TableCell align={'center'}>Acciones.</TableCell>
                                 </TableRow>

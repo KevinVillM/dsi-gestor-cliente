@@ -24,6 +24,7 @@ import tareaReducer from "../../js/tareaReducer.js"
 import { useNavigate } from 'react-router-dom';
 import {Circle} from "@mui/icons-material"
 import { ta } from 'date-fns/locale';
+import { set } from 'date-fns';
 
 
 function EditarTarea(){
@@ -72,7 +73,7 @@ function EditarTarea(){
                     const rawTarea = respuesta
                     const tarea = {uid:id,
                     ...rawTarea,
-                    asignados: rawTarea.asignados}
+                    asignados: rawTarea.asignados, proyecto:rawTarea.proyecto}
                     setTarea(tarea)
                     console.log(tarea)
                 })
@@ -152,10 +153,7 @@ function EditarTarea(){
     }
 
     const handleAgregarAsignado = (e) => {
-        const valor = e.target.value
-        console.log(e)
-        const asignado = usuarios.find(usuario => usuario.uid === valor)
-        const changeInTarea = tareaReducer(tarea,{type:"SET_COLABORADORES", payload:valor})
+        const changeInTarea = tareaReducer(tarea,{type:"SET_COLABORADORES", payload:e})
         setTarea(changeInTarea)
     }
     const handleProyectoChange=(e)=>{
@@ -268,7 +266,7 @@ function EditarTarea(){
                                     console.log(v)
                                     console.log(r)
                                     console.log(d)*/                                    
-                                    handleAgregarAsignado
+                                    handleAgregarAsignado(v)
                                     console.log(tarea.asignados)
                                 }}
                                 renderInput={(params) => <TextField {...params} label={'Asignar tarea'} />}/>                            
@@ -320,7 +318,7 @@ function EditarTarea(){
                                             fetch(`http://localhost:8080/api/tareas`,{
                                                 method:'post',
                                                 headers:headers,
-                                                body:JSON.stringify({...tarea, proyecto:tarea.proyecto.uid})
+                                                body:JSON.stringify({...tarea, proyecto:tarea.proyecto.uid, asignados:tarea.asignados.uid})
                                         })
                                             .then(raw => raw.json())
                                             .then(response => { setTareaCreada(true) })
@@ -328,14 +326,14 @@ function EditarTarea(){
                                             fetch(`http://localhost:8080/api/tareas/${tarea.uid}`,{
                                                 method:'put',
                                                 headers:headers,
-                                                body:JSON.stringify(tarea)
+                                                body:JSON.stringify({...tarea, proyecto:tarea.proyecto.uid})
                                         })
                                             .then(raw => raw.json())
                                             .then(response => console.log(response))
 
                                         console.log(tarea)
                                     }
-                                    console.log(JSON.stringify(tarea))    
+                                    console.log(JSON.stringify({...tarea, proyecto:tarea.proyecto.uid}))    
                                 }
                                     }
                                     >{id ? 'Modificar':'Crear'}

@@ -38,7 +38,7 @@ function tareaReducer(state,action){
         case 'SET_COLABORADORES':
             return {
                 ...state,
-                asignados:[...action.payload]
+                asignados:action.payload
             }
 
         default:
