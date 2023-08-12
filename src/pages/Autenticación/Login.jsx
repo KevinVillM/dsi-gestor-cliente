@@ -99,6 +99,8 @@ export default function Login(){
                                                 .then(response => response.ok ? response.json():0)
                                                 .then(res =>{
                                                     if (res){
+                                                        console.log(res)
+
                                                         localStorage.setItem("uid",res.usuario.uid)
                                                         localStorage.setItem("usuario",res.usuario)
                                                         sessionStorage.setItem("token",res.token)

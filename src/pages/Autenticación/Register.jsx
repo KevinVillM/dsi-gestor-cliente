@@ -97,14 +97,14 @@ function Registro(){
     }
 
     const createAccount = () => {
-
+        let rol = "Diseñador"
         const headers = new Headers
         const usuario = {
             nombre:nombre,
             password:password,
             email:email,
             img:'',
-            rol:'ADMIN_ROL',
+            rol:rol,
             estado:true,
             google:false
         }
@@ -121,7 +121,7 @@ function Registro(){
             .then(raw => raw.json())
             .then(respuesta => {
                 console.log(respuesta)
-                setWasAccountSuccessfullyCreated(true)
+                //setWasAccountSuccessfullyCreated(true)
             })
 
     }
@@ -225,7 +225,6 @@ function Registro(){
 
 
                 <Button
-
                     disable={errorPasswordTooShort | errorEmailFormat | errorPassConfirmTooShort}
                     variant={'contained'} onClick={() => navigate('/login')}>Iniciar sesión.</Button>
             </div>
