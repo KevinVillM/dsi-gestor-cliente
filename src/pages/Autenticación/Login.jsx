@@ -3,6 +3,8 @@ import {useState} from 'react'
 import {TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
+import url from "../../serverUrl.js";
+
 
 
 
@@ -12,7 +14,7 @@ import {useNavigate} from "react-router-dom";
     let body = {email:email,password:password}
     let r ;
     try {
-        r =   fetch("http://localhost:8080/api/auth/login",{
+        r =   fetch(url+" /api/auth/login",{
             method:"POST",
             body:JSON.stringify(body),
             headers:{

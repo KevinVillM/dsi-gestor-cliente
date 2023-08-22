@@ -21,7 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import {Label} from "@mui/icons-material";
-
+import url from "../../serverUrl.js";
 
 
 
@@ -137,7 +137,7 @@ function Proyectos() {
       redirect: 'follow'
     };
     
-    const proyecto = fetch("http://localhost:8080/api/proyectos", requestOptions)
+    const proyecto = fetch(url+"/api/proyectos", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
@@ -356,7 +356,7 @@ function Proyectos() {
     )
 }
 async function obtenerUsuarios (){
-    const respuesta = await fetch("http://localhost:8080/api/usuarios")
+    const respuesta = await fetch(url+"/api/usuarios")
     const usuarios = await respuesta.json()
 
     return usuarios;
@@ -367,7 +367,7 @@ async function obtenerProyectos(){
     myHeaders.append("x-token", sessionStorage.getItem("token"));
     myHeaders.append("Content-Type", "application/json");
 
-    const respuesta = await fetch("http://localhost:8080/api/proyectos",{
+    const respuesta = await fetch(url+"/api/proyectos",{
         method: "GET",
         headers: myHeaders,
     })

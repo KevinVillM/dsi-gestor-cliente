@@ -53,7 +53,7 @@ function ResponsiveAppBar(props) {
 
         headers.append("x-token", sessionStorage.getItem("token"))
 
-        fetch(`http://localhost:8080/api/usuarios/${localStorage.getItem('uid')}`,{
+        fetch(url+`/api/usuarios/${localStorage.getItem('uid')}`,{
             headers:headers,
             method:'get'
         })

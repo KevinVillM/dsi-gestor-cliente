@@ -5,7 +5,7 @@ import {Image} from "@mui/icons-material";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import {useNavigate} from "react-router-dom";
-
+import url from "../../serverUrl.js";
 
 function Registro(){
 
@@ -117,7 +117,7 @@ function Registro(){
             body:JSON.stringify(usuario)
         }
 
-        fetch('http://localhost:8080/api/usuarios',init)
+        fetch(url+'/api/usuarios',init)
             .then(raw => raw.json())
             .then(respuesta => {
                 console.log(respuesta)

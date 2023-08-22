@@ -7,7 +7,7 @@ import {Add, Edit} from "@mui/icons-material";
 import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import {useNavigate} from "react-router-dom";
-
+import url from "../../serverUrl.js";
 
 function Tareas(){
 
@@ -28,7 +28,7 @@ function Tareas(){
     useEffect(() =>{
         const header = new Headers
         header.set("x-token", sessionStorage.getItem("token"))
-        fetch('http://localhost:8080/api/tareas',{
+        fetch(url+'/api/tareas',{
             method:'get',
             headers:header
         }).then(rawResponse => rawResponse.json())

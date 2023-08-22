@@ -15,7 +15,7 @@ function Perfil(){
 
 
     useEffect ( () => {
-        fetch( 'http://localhost:8080/api/usuarios/'+localStorage.getItem('uid'),{
+        fetch( url+'/api/usuarios/'+localStorage.getItem('uid'),{
             method: 'get',
             headers:headers,
         }).then( responseRaw => responseRaw.json())

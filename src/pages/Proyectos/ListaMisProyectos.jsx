@@ -20,6 +20,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import {Link, useNavigate} from "react-router-dom";
+import url from "../../serverUrl.js";
 
 
 function ListaMisProyectos(){
@@ -46,7 +47,7 @@ function ListaMisProyectos(){
 
         header.set("x-token", sessionStorage.getItem("token"))
 
-        fetch(`http://localhost:8080/api/proyectos/${idProjectToBeDeleted}`,{
+        fetch(url+`/api/proyectos/${idProjectToBeDeleted}`,{
             method:'delete',
             headers:header
         })
@@ -66,7 +67,7 @@ function ListaMisProyectos(){
     useEffect(() =>{
         const header = new Headers
         header.set("x-token", sessionStorage.getItem("token"))
-        fetch(`http://localhost:8080/api/proyectos/listadoProyectos/${localStorage.getItem('uid')}`,{
+        fetch(url+`/api/proyectos/listadoProyectos/${localStorage.getItem('uid')}`,{
             method:'get',
             headers:header
         }).then(rawResponse => rawResponse.json())

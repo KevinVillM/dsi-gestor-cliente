@@ -21,7 +21,7 @@ import {useParams} from "react-router-dom";
 import dayjs from "dayjs";
 import projectReducer  from "../../js/projectReducer.js";
 import {Circle} from "@mui/icons-material";
-
+import url from "../../serverUrl.js";
 
 function Proyecto(){
 
@@ -61,7 +61,7 @@ function Proyecto(){
         header.set("x-token", sessionStorage.getItem("token"))
 
         if(id){
-            fetch(`http://localhost:8080/api/proyectos/${id}`,{
+            fetch(url+`/api/proyectos/${id}`,{
                 headers:header,
                 method:'get'
             })
@@ -90,7 +90,7 @@ function Proyecto(){
         }
 
         /*
-       fetch('http://localhost:8080/api/usuarios',{
+       fetch(url+'/api/usuarios',{
            method:'get',
            headers:header
        }).then(rawResponse => rawResponse.json()).then(response =>{setCollaborators(response.usuarios)})
@@ -173,7 +173,7 @@ function Proyecto(){
 
 
 
-        fetch(`http://localhost:8080/api/usuarios/email/${collaboratorEmail}`,{
+        fetch(url+`/api/usuarios/email/${collaboratorEmail}`,{
             method:'get',
             headers:headers
         })
@@ -387,7 +387,7 @@ function Proyecto(){
 
 
                                         if(!id){
-                                            fetch('http://localhost:8080/api/proyectos',{
+                                            fetch(url+'/api/proyectos',{
                                                 method:'post',
                                                 headers:header,
                                                 body:JSON.stringify(processedProject)
@@ -395,7 +395,7 @@ function Proyecto(){
                                                 .then(raw => raw.json())
                                                 .then(respuesta => setWasProjectSuccessfullyCreated(true))
                                         }else {
-                                            fetch(`http://localhost:8080/api/proyectos/${project.uid}`,{
+                                            fetch(url+`/api/proyectos/${project.uid}`,{
                                                 method:'put',
                                                 headers:header,
                                                 body:JSON.stringify(processedProject)

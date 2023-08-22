@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import {Circle} from "@mui/icons-material"
 import { ta } from 'date-fns/locale';
 import { set } from 'date-fns';
-
+import url from "../../serverUrl.js";
 
 function EditarTarea(){
 //********************************//
@@ -64,7 +64,7 @@ function EditarTarea(){
         header.set("x-token", sessionStorage.getItem("token"))
 
         if(id){
-            fetch(`http://localhost:8080/api/tareas/${id}`,{
+            fetch(url+`/api/tareas/${id}`,{
                 headers:header,
                 method:'get'
             })
@@ -88,13 +88,13 @@ function EditarTarea(){
                 asignados:[]
             })
         }
-        fetch('http://localhost:8080/api/usuarios',{
+        fetch(url+'/api/usuarios',{
            method:'get',
            headers:header
        }).then(rawResponse => rawResponse.json()).then(response =>{setUsuarios(response.usuarios)
        console.log(response.usuarios)})
 
-       fetch(`http://localhost:8080/api/proyectos/listadoProyectos/${localStorage.getItem('uid')}`,{
+       fetch(url+`/api/proyectos/listadoProyectos/${localStorage.getItem('uid')}`,{
             method:'get',
             headers:header
         }).then(rawResponse => rawResponse.json())
@@ -315,7 +315,7 @@ function EditarTarea(){
                                        if(!id){
                                             console.log(tarea.proyecto.uid)
 
-                                            fetch(`http://localhost:8080/api/tareas`,{
+                                            fetch(url+`/api/tareas`,{
                                                 method:'post',
                                                 headers:headers,
                                                 body:JSON.stringify({...tarea, proyecto:tarea.proyecto.uid, asignados:tarea.asignados.uid})
@@ -323,7 +323,7 @@ function EditarTarea(){
                                             .then(raw => raw.json())
                                             .then(response => { setTareaCreada(true) })
                                         }else{
-                                            fetch(`http://localhost:8080/api/tareas/${tarea.uid}`,{
+                                            fetch(url+`/api/tareas/${tarea.uid}`,{
                                                 method:'put',
                                                 headers:headers,
                                                 body:JSON.stringify({...tarea, proyecto:tarea.proyecto.uid})
