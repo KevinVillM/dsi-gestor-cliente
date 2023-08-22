@@ -14,7 +14,7 @@ import url from "../../serverUrl.js";
     let body = {email:email,password:password}
     let r ;
     try {
-        r =   fetch(url+" /api/auth/login",{
+        r =   fetch(url+"/api/auth/login",{
             method:"POST",
             body:JSON.stringify(body),
             headers:{
