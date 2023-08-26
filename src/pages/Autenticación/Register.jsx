@@ -121,7 +121,7 @@ function Registro(){
             .then(raw => raw.json())
             .then(respuesta => {
                 console.log(respuesta)
-                //setWasAccountSuccessfullyCreated(true)
+                setWasAccountSuccessfullyCreated(true)
             })
 
     }
@@ -239,6 +239,7 @@ function Registro(){
              <Grid container spacing={2}>
                  <Grid item xs={12}>
                      <Typography>La cuenta se creo exitosamente!</Typography>
+                     <Typography>Inicie sesión para ingresar a sus proyectos.</Typography>
                  </Grid>
                  <Grid item>
                      <Button onClick={() => navigate('/login')}

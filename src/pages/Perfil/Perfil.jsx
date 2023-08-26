@@ -3,6 +3,7 @@ import react, {useEffect, useState} from 'react'
 import Avatar from "@mui/material/Avatar";
 import {Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import url from "../../serverUrl.js";
 
 
 function Perfil(){
