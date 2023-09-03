@@ -4,6 +4,7 @@ import Avatar from "@mui/material/Avatar";
 import {Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import url from "../../serverUrl.js";
+import PerfilCardBasic from "../../Componentes/PerfilCardBasic.jsx";
 
 
 function Perfil(){
@@ -73,6 +74,8 @@ function Perfil(){
             </div>
             </div>
         </div>
+
+        <PerfilCardBasic/>
     </>
 }
 
