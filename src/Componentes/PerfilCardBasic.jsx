@@ -9,8 +9,6 @@ import Container from "@mui/material/Container";
 export default function PerfilCardBasic({info,openDialogEliminarCuenta,openDialogActualizarInfo}){
 
 
-    console.log(info)
-
     return <>
             <Card>
                 <CardHeader title={'Informacion personal.'} >
