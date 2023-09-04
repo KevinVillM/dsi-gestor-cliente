@@ -1,12 +1,15 @@
 import react from 'react'
-import {Card, CardActions, CardContent, CardHeader, Grid, TextField} from "@mui/material";
+import {Card, CardActions, CardContent, CardHeader, Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
 
 
-export default function PerfilCardBasic(info){
+export default function PerfilCardBasic({info,openDialogEliminarCuenta,openDialogActualizarInfo}){
+
+
+    console.log(info)
 
     return <>
             <Card>
@@ -22,7 +25,9 @@ export default function PerfilCardBasic(info){
                         </Grid>
 
                         <Grid item sm={12} md={6}>
-                            <Typography variant={'h5'}>Nombre</Typography>
+                            <Typography variant={'h5'}>Nombre:{info.nombre}</Typography>
+                            <Typography variant={'h5'}>Correo electronico:{info.email}</Typography>
+                            <Typography variant={'h5'}>Numero telefonico: </Typography>
                         </Grid>
 
                         <Grid item sm={12} md={12} xs={12}>
@@ -33,16 +38,13 @@ export default function PerfilCardBasic(info){
                                 </Stack>
                         </Grid>
                     </Grid>
-
-
-
-
-
-
                 </CardContent>
 
                 <CardActions>
                     <Button>Editar perfil.</Button>
+                    <Button
+                        onClick={() => openDialogEliminarCuenta(true)}
+                        color={'error'}>Eliminar cuenta.</Button>
                 </CardActions>
             </Card>
         </>

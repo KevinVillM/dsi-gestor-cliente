@@ -1,20 +1,32 @@
 import react, {useEffect, useState} from 'react'
 
 import Avatar from "@mui/material/Avatar";
-import {Skeleton} from "@mui/material";
+import {Dialog, DialogActions, DialogContent, DialogTitle, Grid, Skeleton} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import url from "../../serverUrl.js";
 import PerfilCardBasic from "../../Componentes/PerfilCardBasic.jsx";
+import Loading from "../../Componentes/Loading.jsx";
+import Button from "@mui/material/Button";
 
 
 function Perfil(){
     let [informacionPersonal,setInformacionPersonal] = useState();
+    let [modalEditarPerfilOpen,setModalEditarPerfilOpen] = useState(false)
+    let [modalEliminarCuentaOpen,setModalEliminarCuentaOpen] = useState(false)
+
+
 
     let headers = new Headers
-
     headers.append("x-token", sessionStorage.getItem("token"));
     headers.append("Content-Type", "application/json");
 
+    let handleDialogActualizarInformacion = () => {
+        setModalEditarPerfilOpen(false)
+    }
+
+    let handleDialogEliminarCuenta = ()=>{
+        setModalEliminarCuentaOpen(false)
+    }
 
     useEffect ( () => {
         fetch( url+'/api/usuarios/'+localStorage.getItem('uid'),{
@@ -22,60 +34,45 @@ function Perfil(){
             headers:headers,
         }).then( responseRaw => responseRaw.json())
             .then(response => {
-                console.log(response.usuario)
+                //console.log(response.usuario)
                 setInformacionPersonal(response.usuario)
             } )
 
     },[])
 
+    if(!informacionPersonal){
+
+        return <>
+            <Grid container justifyContent="center" alignItems="center">
+                <Grid item>
+                    <Loading/>
+                </Grid>
+            </Grid>
+        </>
+    }
 
     return <>
-        <div>
+        <PerfilCardBasic
+            info={informacionPersonal}
+            openDialogEliminarCuenta={setModalEliminarCuentaOpen}
+            openDialogActualizarInfo={setModalEditarPerfilOpen}
 
-            <div className={'container'}>
-                <div className={'row'}>
-                    <div className={'col-md mb-4 mt-2'}>
-                        <div className={'d-flex justify-content-center'}>
-                            {
-                                informacionPersonal ?
+        />
 
-                                    //<img alt={'Foto de perfil'} />
-                                    <Avatar src={'/'}
-                                            alt={localStorage.getItem('nombreUsuario')}
-                                            sx={{ width: 150, height: 150 }}><h1>{localStorage.getItem('nombreUsuario')[0] }</h1></Avatar>
-                                    :
-                                    <Skeleton variant={'circular'}>
-                                        <Avatar sx={{ width: 150, height: 150 }} />
-                                    </Skeleton>
+        <Dialog open={modalEliminarCuentaOpen} onClose={handleDialogEliminarCuenta}>
+            <DialogTitle>Desea eliminar su cuenta?</DialogTitle>
+            <DialogContent>
+                <Typography>Realmente desea eliminar su cuenta?</Typography>
+            </DialogContent>
 
-                            }
-                        </div>
+            <DialogActions>
+                <Button onClick={handleDialogEliminarCuenta}>Cancelar.</Button>
+                <Button color={'error'}>Eliminar.</Button>
+            </DialogActions>
+        </Dialog>
 
-                    </div>
-                    <div className={'col mb-4 mt-4'}>
-                        <Typography variant={'h5'}>
-                            {
-                                informacionPersonal ?
-                                    'Nombre: '+ informacionPersonal.nombre
-                                    :
-                                    <Skeleton/>
-                            }
-                        </Typography>
+        
 
-                        <Typography variant={'h5'}>
-                            {
-                                informacionPersonal ?
-                                    'Correo electronico: '+informacionPersonal.email
-                                    :
-                                    <Skeleton/>
-                            }
-                        </Typography>
-                </div>
-            </div>
-            </div>
-        </div>
-
-        <PerfilCardBasic/>
     </>
 }
 
