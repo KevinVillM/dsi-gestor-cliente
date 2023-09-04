@@ -25,9 +25,9 @@ export default function PerfilCardBasic({info,openDialogEliminarCuenta,openDialo
                         </Grid>
 
                         <Grid item sm={12} md={6}>
-                            <Typography variant={'h5'}>Nombre:{info.nombre}</Typography>
-                            <Typography variant={'h5'}>Correo electronico:{info.email}</Typography>
-                            <Typography variant={'h5'}>Numero telefonico: </Typography>
+                            <Typography variant={'h5'}>Nombre : {info.nombre}</Typography>
+                            <Typography variant={'h5'}>Correo electronico : {info.email}</Typography>
+                            <Typography variant={'h5'}>Numero telefonico : </Typography>
                         </Grid>
 
                         <Grid item sm={12} md={12} xs={12}>
@@ -41,7 +41,7 @@ export default function PerfilCardBasic({info,openDialogEliminarCuenta,openDialo
                 </CardContent>
 
                 <CardActions>
-                    <Button>Editar perfil.</Button>
+                    <Button onClick={() => openDialogActualizarInfo(true)}>Editar perfil.</Button>
                     <Button
                         onClick={() => openDialogEliminarCuenta(true)}
                         color={'error'}>Eliminar cuenta.</Button>

@@ -7,6 +7,7 @@ import url from "../../serverUrl.js";
 import PerfilCardBasic from "../../Componentes/PerfilCardBasic.jsx";
 import Loading from "../../Componentes/Loading.jsx";
 import Button from "@mui/material/Button";
+import UpdatePerfilModal from "../../Componentes/modals/UpdatePerfilModal.jsx";
 
 
 function Perfil(){
@@ -41,7 +42,6 @@ function Perfil(){
     },[])
 
     if(!informacionPersonal){
-
         return <>
             <Grid container justifyContent="center" alignItems="center">
                 <Grid item>
@@ -71,7 +71,11 @@ function Perfil(){
             </DialogActions>
         </Dialog>
 
-        
+
+    <UpdatePerfilModal
+        infoPersonal={informacionPersonal}
+        handleOnClose={handleDialogActualizarInformacion}
+        modalUpdatePerfilOPen={modalEditarPerfilOpen}/>
 
     </>
 }
