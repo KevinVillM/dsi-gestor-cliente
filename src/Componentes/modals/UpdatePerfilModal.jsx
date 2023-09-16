@@ -10,6 +10,12 @@ export default function UpdatePerfilModal({modalUpdatePerfilOPen,infoPersonal,ha
     let [copyNombre,setCopyNombre] = useState(infoPersonal.nombre)
     let [copyCorreo,setCopyCorreo] = useState(infoPersonal.email)
 
+    let handleCloseAsCancel = ()=>{
+        handleOnClose()
+        setCopyCorreo(infoPersonal.email)
+        setCopyNombre(infoPersonal.nombre)
+    }
+
     let handleOnChangeNombre = (e) => setCopyNombre(e.target.value)
 
 
@@ -17,7 +23,7 @@ export default function UpdatePerfilModal({modalUpdatePerfilOPen,infoPersonal,ha
 
 
     return <>
-        <Dialog open={modalUpdatePerfilOPen} onClose={handleOnClose}>
+        <Dialog open={modalUpdatePerfilOPen} onClose={handleCloseAsCancel}>
             <DialogTitle>Actualizar informacion personal.</DialogTitle>
             <DialogContent>
                 <Stack spacing={2}>
@@ -30,7 +36,7 @@ export default function UpdatePerfilModal({modalUpdatePerfilOPen,infoPersonal,ha
 
             <DialogActions>
                 <Button color="success">Actualizar.</Button>
-                <Button onClick={handleOnClose}>Cancelar.</Button>
+                <Button onClick={handleCloseAsCancel}>Cancelar.</Button>
             </DialogActions>
         </Dialog>
 
