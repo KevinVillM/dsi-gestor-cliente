@@ -1,169 +1,93 @@
 import React from 'react'
 import ResponsiveAppBar from "../Componentes/ResponsiveAppBar.jsx";
 import {Card, CardContent, Grid} from "@mui/material";
-import OpcionCard from "..//Componentes/OpcionCard.jsx"
+import {CardUserInfo, CardArea} from "..//Componentes/OpcionCard.jsx"
 import {useNavigate} from "react-router-dom";
-import {Navigate} from "react-router";
-import Container from '@mui/material/Container';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ConstructionIcon from '@mui/icons-material/Construction';
-import EventBusyIcon from '@mui/icons-material/EventBusy';
-import AvatarGroup from '@mui/material/AvatarGroup';
-import { CardActionArea } from '@mui/material';
-import { CardActions } from '@mui/material';
-import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
-import { yellow } from '@mui/material/colors';
+import {useState, useEffect} from "react";
+import url from "../serverUrl.js";
+
+
 
 function Inicio(){
 
+    let [cantidadProyectos,setCantidadProyectos] = useState()
+    let [cantidadProyectosPendientes,setcantidadProyectosPendientes] = useState()
+    let [cantidadProyectosFinalizados,setcantidadProyectosFinalizados] = useState()
+    let [cantidadProyectosEnProceso,setcantidadProyectosEnProceso] = useState()
+
+
+
+
+    var id = localStorage.getItem("uid");
+    var token = sessionStorage.getItem("token");
+    var myHeaders = new Headers();
+        myHeaders.append("x-token", token);
+
+        var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("https://gestor-dsi-produccion2-production.up.railway.app/api/proyectos/estadistica/"+id, requestOptions)
+        .then(response => response.json()
+        .then(result => {
+            setCantidadProyectos(result.cantidadProyectos) 
+            setcantidadProyectosPendientes(result.cantidadProyectosPendientes) 
+            setcantidadProyectosFinalizados(result.cantidadProyectosFinalizados) 
+            setcantidadProyectosEnProceso(result.cantidadProyectosEnProceso)}
+            )
+        .catch(error => console.log('error', error)));
+
+        console.log(cantidadProyectos,cantidadProyectosEnProceso,cantidadProyectosFinalizados,cantidadProyectosPendientes);
+
+let [imagenesAvatar,setImagenesAvatar] = useState([])
+
+useEffect(() => {
+fetch("https://gestor-dsi-produccion2-production.up.railway.app/api/proyectos/colaboradores/"+id, requestOptions)
+.then(response => response.json()
+.then(result => {setImagenesAvatar(result.colaboradoresFiltrados)})
+.catch(error => console.log('error', error)));
+}, []);
+
+
+   
     let navigate = useNavigate()
+
+    const nombreUsuario = localStorage.getItem("nombreUsuario");
+    const imgUsuario = localStorage.getItem("fotoPerfil");
+
+
+
 
     return (
         <>
         <Grid container spacing={1} justifyContent="center">
                 <Grid item md={4} >
-                <Card sx={{ maxWidth: 345, maxHeight: 500}}>
-                    <CardActionArea>
-                        <Grid container spacing={2} justifyContent="center">
-                            <Grid item md={4}>
-                                <CardContent>
-                                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" sx={{ width: 100, height: 100 }} />
-                                </CardContent>
-                            </Grid>
-                            <Grid item md={8}>
-                            <h5>Usuario</h5>
-                            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam, repudiandae quaerat eaque maiores.</p>
-                            </Grid>
-                        </Grid>
-                        <CardContent>
-                        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                            <ListItem>
-                                <ListItemAvatar>
-                                <Avatar>
-                                    <CheckCircleOutlineIcon color="success"/>
-                                </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Proyectos Finalizados" secondary="Jan 9, 2014" />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemAvatar>
-                                <Avatar>
-                                    <ConstructionIcon  />
-                                </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Proyectos en proceso" secondary="Jan 7, 2014" />
-                            </ListItem>
-                            <ListItem>
-                                <ListItemAvatar>
-                                <Avatar>
-                                    <EventBusyIcon  sx={{ color: yellow[500] }}/>
-                                </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText primary="Proyectos no iniciados" secondary="July 20, 2014" />
-                            </ListItem>
-                        </List>
-                        </CardContent>
-                    </CardActionArea>
-                    <CardActions>
-                    <Container maxWidth="sm" >
-                        <AvatarGroup max={4}>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                        </AvatarGroup>
-                    </Container>
-                    </CardActions>
-                </Card>            
+                    <CardUserInfo usuario={nombreUsuario} desc="" imgUser={imgUsuario} prFinalizados={cantidadProyectosFinalizados} prProceso={cantidadProyectosEnProceso} prNoIniciados={cantidadProyectosPendientes} avatars={
+                            imagenesAvatar?
+                            imagenesAvatar.map((item)=>{
+                                return(
+                                    imagenesAvatar = item.avatar
+                                )
+                            })
+                            :
+                            ''
+                    }/>
                 </Grid>
-
                 <Grid item md={8}>
                     <Grid container spacing={2} justifyContent="center">
                         <Grid item md={6}>
- 
-                            <Card sm={{ maxWidth: 345, Height: 400}} >
-                                <CardActionArea>
-                                    <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image="https://res.cloudinary.com/dykkzngwd/image/upload/v1695006757/ImagenesGestor/administrador-de-tarea-vs-gestor-de-proyectos_oac1mk.jpg"
-                                    alt="green iguana"
-                                    />
-                                    <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                    Mis proyectos
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                    En esta interfaz se realiza la creación, modificación y eliminación de proyectos, así como también la asignación de las tareas a cada proyecto.
-                                    </Typography>
-                                    </CardContent>
-                                </CardActionArea >
-                            </Card>
+                            <CardArea titulo={"Proyectos"} desc={"En esta interfaz se realiza la creación, modificación y eliminación de un proyecto, además de realizar un filtrado de proyectos respecto al estado de cada uno."} handler={()=>{navigate('/misproyectos')}} img="https://res.cloudinary.com/dykkzngwd/image/upload/v1695006757/ImagenesGestor/administrador-de-tarea-vs-gestor-de-proyectos_oac1mk.jpg"/>
                         </Grid>
                         <Grid item md={6}>
-                            <Card sm={{ maxWidth: 345, maxHeight: 350}} handler={()=>{navigate('/misproyectos')}}>
-                                <CardActionArea>
-                                    <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image="https://res.cloudinary.com/dykkzngwd/image/upload/v1695007523/ImagenesGestor/gestion_de_tareas_2_quqwlr.jpg"
-                                    />
-                                    <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                    Tareas
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                    En esta interfaz se realiza la creación, modificación y eliminación de una tarea, además de realizar un filtrado de tareas respecto al avance de cada tarea.
-                                    </Typography>
-                                    </CardContent>
-                                </CardActionArea >
-                            </Card>
+                            <CardArea titulo={"Tareas"} desc={"En esta interfaz se realiza la creación, modificación y eliminación de una tarea, además de realizar un filtrado de tareas respecto al estado de cada tarea."} handler={()=>{navigate('/mistareas')}} img="https://res.cloudinary.com/dykkzngwd/image/upload/v1695007523/ImagenesGestor/gestion_de_tareas_2_quqwlr.jpg"/>
                         </Grid>
                         <Grid item md={6}>
-                        <Card sm={{ maxWidth: 345}} >
-                                <CardActionArea>
-                                    <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image="https://res.cloudinary.com/dykkzngwd/image/upload/v1695007522/ImagenesGestor/Administrador-de-tareas-gratis-header_c2gmj9.png"
-                                    />
-                                    <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                    Informes
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                    En esta interfaz se generarán los informes necesarios sobre los proyectos, gráficos, porcentajes de avance de tareas, etc.
-                                    </Typography>
-                                    </CardContent>
-                                </CardActionArea >
-                            </Card>
+                            <CardArea titulo={"Informes"} desc={"En esta interfaz se realiza la creación, modificación y eliminación de un informe, además de realizar un filtrado de informes respecto al estado de cada informe."} handler={()=>{navigate('/misinformes')}} img="https://res.cloudinary.com/dykkzngwd/image/upload/v1695007522/ImagenesGestor/Administrador-de-tareas-gratis-header_c2gmj9.png"/>
                         </Grid>
                         <Grid item md={6}>
-
-                            <Card sm={{ maxWidth: 345}} >
-                                <CardActionArea>
-                                    <CardMedia
-                                    component="img"
-                                    height="140"
-                                    image="https://res.cloudinary.com/dykkzngwd/image/upload/v1695008807/ImagenesGestor/61d5e1b6ae8db76cba5ac2fe_Coming-Soon-Page_arkuna.jpg"
-                                    />
-                                    <CardContent>
-                                    <Typography gutterBottom variant="h5" component="div">
-                                    Proximamente
-                                    </Typography>
-                                    <Typography variant="body2" color="text.secondary">
-                                    Podras tener acceso a nuevas funcionalidades pronto.
-                                    </Typography>
-                                    </CardContent>
-                                </CardActionArea >
-                            </Card>
+                            <CardArea titulo={"Proximamente"} desc={"¡Podras disfrutar de nuevas funcionalidades que seran agregadas muy pronto!"} handler={()=>{navigate('/misusuarios')}} img="https://res.cloudinary.com/dykkzngwd/image/upload/v1695008807/ImagenesGestor/61d5e1b6ae8db76cba5ac2fe_Coming-Soon-Page_arkuna.jpg"/>
                         </Grid>
                     </Grid>
                 </Grid>
