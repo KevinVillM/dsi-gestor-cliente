@@ -41,7 +41,7 @@ export default function UpdatePerfilModal({modalUpdatePerfilOPen,infoPersonal,ha
 
         fetch(serverUrl+'/api/usuarios/'+infoPersonal.uid,{
             method:'put',
-            redirect:"follow"
+            redirect:"follow",
             body:JSON.stringify(body)
         }).then(raw => raw.json())
             .then(response => {
