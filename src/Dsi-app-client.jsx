@@ -14,7 +14,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/es-mx.js'
 import Tareas from "./pages/Tareas/ListaMisTareas.jsx";
 import EditarTarea from "./pages/Tareas/Tarea.jsx";
-import Registro from "./pages/Autenticación/Registro.jsx";
+import Registro from "./pages/Autenticación/Register.jsx";
 
 export const App = () => {
     return (

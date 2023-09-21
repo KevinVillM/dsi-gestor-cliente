@@ -3,9 +3,13 @@ import Container from "@mui/material/Container";
 import {Card, CardContent, CardHeader, Grid, TextField} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import {useNavigate} from "react-router-dom";
+import url from "../../serverUrl.js";
 
 
 export default function Registro(){
+
+    let navigate = useNavigate()
 
     let [nombre,setNombre] = useState('')
     let [email,setEmail] = useState('')
@@ -16,6 +20,8 @@ export default function Registro(){
     let [errorEmail,setErrorEmail] = useState(false)
     let [errorPassword,setErrorPassword] = useState(false)
     let [errorConfirmPassword,setErrorConfirmPassword] = useState(false)
+
+    let [cuentaCreadaExitosament,setCuentaCreadaExitosamente] = useState(false)
 
 
     let handleOnNombreChange = (e) => {
@@ -44,9 +50,35 @@ export default function Registro(){
     }
 
 
-    let crearCuenta = () =>{
 
-        
+
+    const createAccount = () => {
+        let rol = "Diseñador"
+        const headers = new Headers
+        const usuario = {
+            nombre:nombre,
+            password:password,
+            email:email,
+            img:'',
+            rol:rol,
+            estado:true,
+            google:false
+        }
+
+        headers.set('Content-Type','application/json')
+
+        const init = {
+            method:'post',
+            headers:headers,
+            body:JSON.stringify(usuario)
+        }
+
+        fetch(url+'/api/usuarios',init)
+            .then(raw => raw.json())
+            .then(respuesta => {
+                console.log(respuesta)
+            })
+
     }
 
     return <>
@@ -112,7 +144,7 @@ export default function Registro(){
                             </Grid>
 
                             <Grid item>
-                                <Button variant={'contained'}>Iniciar sesion</Button>
+                                <Button variant={'contained'} onClick={()=> navigate('/login')}>Iniciar sesion</Button>
                             </Grid>
 
                         </Grid>
