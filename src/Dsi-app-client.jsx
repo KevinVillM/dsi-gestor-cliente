@@ -6,7 +6,6 @@ import Proyectos from "./pages/Proyectos/Proyectos.jsx";
 import GestionTareas from "./pages/Tareas/GestionTareas.jsx";
 import RequireAuth from "./pages/Autenticación/RequireAuth.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import Register from "./pages/Autenticación/Register.jsx";
 import Perfil from "./pages/Perfil/Perfil.jsx";
 import ListaMisProyectos from "./pages/Proyectos/ListaMisProyectos.jsx";
 import Proyecto from "./pages/Proyectos/Proyecto.jsx";
@@ -15,13 +14,15 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import 'dayjs/locale/es-mx.js'
 import Tareas from "./pages/Tareas/ListaMisTareas.jsx";
 import EditarTarea from "./pages/Tareas/Tarea.jsx";
+import Registro from "./pages/Autenticación/Register.jsx";
+
 export const App = () => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'es-mx'}>
           <BrowserRouter>
             <Routes>
                 <Route path ={"/login"} element={<Login/>}></Route>
-                <Route path={"/registro"} element={<Register/>}/>
+                <Route path={"/registro"} element={<Registro/>}/>
                 <Route element={<RequireAuth isLogged={localStorage.getItem("isLogged") === "true"}/> } >
                     <Route path={"/dashboard"} element={<Dashboard><Inicio/></Dashboard>}></Route>
                     <Route path = {"/proyectos"} element={<Dashboard><Proyectos/></Dashboard>}></Route>

@@ -4,10 +4,12 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Container from "@mui/material/Container";
+import DropZoneProfileImage from "./dropZoneProfileImage.jsx";
 
 
 export default function PerfilCardBasic({info,openDialogEliminarCuenta,openDialogActualizarInfo}){
 
+    console.log(info)
 
     return <>
             <Card>
@@ -18,14 +20,13 @@ export default function PerfilCardBasic({info,openDialogEliminarCuenta,openDialo
                     <Grid container rowSpacing={5}>
                         <Grid item container justifyContent={'center'} sm={12} md={6}>
                             <Grid item>
-                                <img alt={'perfil'}/>
+                                <DropZoneProfileImage imagenUrl={info.img} userID={info.uid} />
                             </Grid>
                         </Grid>
 
                         <Grid item sm={12} md={6}>
                             <Typography variant={'h5'}>Nombre : {info.nombre}</Typography>
                             <Typography variant={'h5'}>Correo electronico : {info.email}</Typography>
-                            <Typography variant={'h5'}>Numero telefonico : </Typography>
                         </Grid>
 
                         <Grid item sm={12} md={12} xs={12}>
