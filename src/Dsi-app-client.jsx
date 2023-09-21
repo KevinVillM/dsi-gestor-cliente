@@ -15,12 +15,14 @@ import 'dayjs/locale/es-mx.js'
 import Tareas from "./pages/Tareas/ListaMisTareas.jsx";
 import EditarTarea from "./pages/Tareas/Tarea.jsx";
 import Registro from "./pages/Autenticación/Register.jsx";
+import Index from "./pages/Index.jsx";
 
 export const App = () => {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'es-mx'}>
           <BrowserRouter>
             <Routes>
+                <Route path={'/'} element={<Index/>}/>
                 <Route path ={"/login"} element={<Login/>}></Route>
                 <Route path={"/registro"} element={<Registro/>}/>
                 <Route element={<RequireAuth isLogged={localStorage.getItem("isLogged") === "true"}/> } >
