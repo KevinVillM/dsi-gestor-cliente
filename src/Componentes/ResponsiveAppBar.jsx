@@ -1,4 +1,4 @@
-import react from 'react'
+import react, {useEffect} from 'react'
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
+import serverUrl from "../serverUrl.js";
 
 const pages = ['Proyectos', 'Mis tareas'];
 const settings = ['Perfil', 'Cerrar sesión'];
@@ -23,6 +24,19 @@ function ResponsiveAppBar(props) {
     const [anchorElUser, setAnchorElUser] = useState(null);
 
     const [avatar,setAvatar] = useState()
+
+    useEffect(() => {
+
+        let header = new Headers
+        header.set("x-token", sessionStorage.getItem("token"))
+
+        fetch(serverUrl+'/api/usuarios/'+localStorage.getItem('uid'),{
+            method:'get',
+            headers:header
+        }).then(raw => raw.json())
+            .then(response => setAvatar(response.usuario.img))
+
+    }, []);
 
     const navigate = useNavigate()
 
@@ -153,7 +167,7 @@ function ResponsiveAppBar(props) {
                         <Box sx={{ flexGrow: 0 }}>
                             <Tooltip title="Opciones">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                    <Avatar alt={localStorage.getItem('nombreUsuario')} src="/static/images/avatar/2.jpg" />
+                                    <Avatar src={avatar} alt={localStorage.getItem('nombreUsuario')}  />
                                 </IconButton>
                             </Tooltip>
                             <Menu
