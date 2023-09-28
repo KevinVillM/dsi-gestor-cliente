@@ -7,8 +7,7 @@ import url from "../../serverUrl.js";
 
 
 
-
-  function autenticar(email,password){
+function autenticar(email,password){
 
 
     let body = {email:email,password:password}
@@ -29,6 +28,10 @@ import url from "../../serverUrl.js";
       return r;
 
 }
+
+
+
+
 export default function Login(){
       const navigate = useNavigate()
     let [errorEmail,setErrorEmail] = useState(false)
