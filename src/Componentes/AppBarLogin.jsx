@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 
-
 function AppBarIndex(props) {
     let navigate = useNavigate();
 
@@ -54,7 +53,6 @@ function AppBarIndex(props) {
 
                 </Toolbar>
             </Container>
-            
         </AppBar>
     </>);
 }
