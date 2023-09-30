@@ -7,13 +7,14 @@ import CardMedia from '@mui/material/CardMedia';
 
 
 import "../styles/index.css";
+import AppBarLogin from "../Componentes/AppBarLogin.jsx";
 
 
 function Index() {
 
     return (
         <>
-
+            <AppBarLogin/>
             <section className="top">
                 <div className="title">
                     <h1>SGDP</h1>

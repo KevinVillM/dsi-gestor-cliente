@@ -26,30 +26,23 @@ export default function UpdatePerfilModal({modalUpdatePerfilOPen,infoPersonal,ha
 
         setCargando(true)
         let header = new Headers
-        header.set("x-token", sessionStorage.getItem("token"))
+        //header.set("x-token", sessionStorage.getItem("token"))
+        header.set('Content-Type','application/json')
 
-        let body = {
-            img:infoPersonal.img,
-            rol:'Diseñador',
-            estado:true,
-            google:false,
+        let rol = 'Diseñador'
+
+        let user = {
+            nombre:copyNombre,
             email:copyCorreo,
             password:infoPersonal.password,
-            nombre:copyNombre}
+            img:infoPersonal.img,
+            rol:rol,
+            estado:true,
+            google:false,
+            }
 
-        console.log(body)
 
-        fetch(serverUrl+'/api/usuarios/'+infoPersonal.uid,{
-            method:'put',
-            redirect:"follow",
-            body:JSON.stringify(body)
-        }).then(raw => raw.json())
-            .then(response => {
-                console.log(response)
-                setCopyNombre(response.usuario.nombre)
-                setCopyCorreo(response.usuario.email)
-                setCargando(false)
-            })
+
     }
 
     return <>
