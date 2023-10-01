@@ -62,6 +62,7 @@ export default function UpdatePerfilModal({modalUpdatePerfilOPen,setInfoPersonal
                 }
 
                 setInfoPersonal(newUser)
+                localStorage.setItem('nombreUsuario',newUser.nombre)
 
             })
 
